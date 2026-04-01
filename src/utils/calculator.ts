@@ -23,9 +23,10 @@ export function getWorkingDays(
   startISO: string,
   endISO: string,
   blockedWeekdays: number[],
-  blockedDates: string[]
+  blockedDates: string[],
+  globalBlockedDates: string[] = []
 ): number {
-  const blockedSet = new Set(blockedDates)
+  const blockedSet = new Set([...blockedDates, ...globalBlockedDates])
   let count = 0
   const cur = new Date(startISO + 'T00:00:00')
   const end = new Date(endISO + 'T00:00:00')
@@ -45,10 +46,11 @@ export function calcPersonResult(
   person: Person,
   startISO: string,
   endISO: string,
-  efficiencyPercent: number
+  efficiencyPercent: number,
+  globalBlockedDates: string[] = []
 ): PersonResult {
   const dailyHours = person.hoursPerWeek / 5
-  const workingDays = getWorkingDays(startISO, endISO, person.blockedWeekdays, person.blockedDates)
+  const workingDays = getWorkingDays(startISO, endISO, person.blockedWeekdays, person.blockedDates, globalBlockedDates)
   const grossHours = workingDays * dailyHours
   const netHours = grossHours * (efficiencyPercent / 100)
   const pt = netHours / 8
@@ -59,9 +61,10 @@ export function calcTeamResult(
   persons: Person[],
   startISO: string,
   endISO: string,
-  efficiencyPercent: number
+  efficiencyPercent: number,
+  globalBlockedDates: string[] = []
 ): TeamResult {
-  const results = persons.map(p => calcPersonResult(p, startISO, endISO, efficiencyPercent))
+  const results = persons.map(p => calcPersonResult(p, startISO, endISO, efficiencyPercent, globalBlockedDates))
   const totalPT = results.reduce((sum, r) => sum + r.pt, 0)
   return { persons: results, totalPT }
 }

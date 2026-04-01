@@ -1,12 +1,15 @@
 import type { Component } from 'solid-js'
+import WeekCalendar from './WeekCalendar'
 
 interface Props {
   startDate: string
   endDate: string
   efficiencyPercent: number
+  globalBlockedDates: string[]
   onStartDate: (v: string) => void
   onEndDate: (v: string) => void
   onEfficiency: (v: number) => void
+  onToggleBlockedDate: (date: string) => void
 }
 
 const TimeframeSection: Component<Props> = (props) => {
@@ -47,6 +50,12 @@ const TimeframeSection: Component<Props> = (props) => {
           </div>
         </label>
       </div>
+      <WeekCalendar
+        startDate={props.startDate}
+        endDate={props.endDate}
+        globalBlockedDates={props.globalBlockedDates}
+        onToggle={props.onToggleBlockedDate}
+      />
     </section>
   )
 }

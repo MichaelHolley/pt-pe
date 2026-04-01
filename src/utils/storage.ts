@@ -4,6 +4,7 @@ export interface AppState {
   startDate: string
   endDate: string
   efficiencyPercent: number
+  globalBlockedDates: string[]
   persons: Person[]
 }
 
@@ -23,6 +24,7 @@ const DEFAULT_STATE: AppState = {
   startDate: today(),
   endDate: defaultEndDate(),
   efficiencyPercent: 85,
+  globalBlockedDates: [],
   persons: [
     { id: '1', name: 'Person A', hoursPerWeek: 40, blockedWeekdays: [], blockedDates: [] },
     { id: '2', name: 'Person B', hoursPerWeek: 32, blockedWeekdays: [4], blockedDates: [] },
@@ -33,7 +35,10 @@ export function loadState(): AppState {
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return DEFAULT_STATE
-    return JSON.parse(raw) as AppState
+    const parsed = JSON.parse(raw) as AppState
+    // backfill field added after initial release
+    if (!parsed.globalBlockedDates) parsed.globalBlockedDates = []
+    return parsed
   } catch {
     return DEFAULT_STATE
   }

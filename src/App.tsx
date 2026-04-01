@@ -13,8 +13,14 @@ const App: Component = () => {
   createEffect(() => saveState({ ...state, persons: [...state.persons] }))
 
   const result = createMemo(() =>
-    calcTeamResult(state.persons, state.startDate, state.endDate, state.efficiencyPercent)
+    calcTeamResult(state.persons, state.startDate, state.endDate, state.efficiencyPercent, state.globalBlockedDates)
   )
+
+  const toggleGlobalBlockedDate = (date: string) => {
+    setState('globalBlockedDates', (dates) =>
+      dates.includes(date) ? dates.filter(d => d !== date) : [...dates, date].sort()
+    )
+  }
 
   const addPerson = () => {
     const newPerson: Person = {
@@ -47,9 +53,11 @@ const App: Component = () => {
           startDate={state.startDate}
           endDate={state.endDate}
           efficiencyPercent={state.efficiencyPercent}
+          globalBlockedDates={state.globalBlockedDates}
           onStartDate={v => setState('startDate', v)}
           onEndDate={v => setState('endDate', v)}
           onEfficiency={v => setState('efficiencyPercent', v)}
+          onToggleBlockedDate={toggleGlobalBlockedDate}
         />
 
         <section class="flex flex-col gap-3">
