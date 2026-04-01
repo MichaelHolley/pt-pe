@@ -46,7 +46,8 @@ const App: Component = () => {
   }
 
   const updatePerson = (id: string, updated: Person) => {
-    setState('persons', p => p.map(person => person.id === id ? updated : person))
+    const idx = state.persons.findIndex(p => p.id === id)
+    if (idx !== -1) setState('persons', idx, updated)
   }
 
   const removePerson = (id: string) => {
