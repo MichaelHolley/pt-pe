@@ -1,36 +1,71 @@
-## Usage
+# PT Planner
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
+A lightweight, frontend-only tool for estimating how many **Projekt Tage (PT)** a team can realistically achieve within a given timeframe.
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+One PT = 8 hours of work.
 
-```bash
-$ npm install # or pnpm install or yarn install
+## Features
+
+- **Timeframe selection** — pick a start and end date; the app renders a Mon–Fri week grid for the full range
+- **Global blocked days** — click any day in the calendar to block it for the entire team (e.g. company holidays); click again to unblock
+- **Dynamic team roster** — add or remove team members; each member has a configurable name and weekly hours
+- **Per-person blocked weekdays** — mark recurring days off per person (e.g. every Thursday for a part-time employee)
+- **Per-person blocked dates** — block specific calendar dates per person (e.g. individual vacation days)
+- **Efficiency factor** — a global percentage (default 85%) applied to gross available hours to account for meetings and overhead
+- **Live results** — total achievable PT plus a per-person breakdown of working days, gross hours, net hours, and PT contribution
+- **Floating summary** — a fixed footer displays the total PT whenever the results panel is scrolled out of view
+- **Persistence** — all configuration is saved to `localStorage` and restored on page reload; no backend required
+
+## Calculation
+
+For each team member:
+
+```
+daily_hours  = hours_per_week / 5
+working_days = days in [start, end] that are Mon–Fri
+               AND not a blocked weekday for this person
+               AND not a blocked date for this person
+               AND not a globally blocked date
+gross_hours  = working_days × daily_hours
+net_hours    = gross_hours × (efficiency_percent / 100)
+PT           = net_hours / 8
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+**Total achievable PT** = sum of all members' PT (rounded to 2 decimal places).
 
-## Available Scripts
+## Tech stack
 
-In the project directory, you can run:
+- [SolidJS](https://solidjs.com) — fine-grained reactive UI
+- [Tailwind CSS v4](https://tailwindcss.com) — utility-first styling
+- [Vite](https://vitejs.dev) — build tool and dev server
+- TypeScript
 
-### `npm run dev` or `npm start`
+## Setup
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**Prerequisites:** [Bun](https://bun.sh)
 
-The page will reload if you make edits.<br>
+```bash
+bun install
+```
 
-### `npm run build`
+### Development
 
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
+```bash
+bun run dev
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Opens at [http://localhost:3000](http://localhost:3000). The page hot-reloads on file changes.
 
-## Deployment
+### Production build
 
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+```bash
+bun run build
+```
 
-## This project was created with the [Solid CLI](https://github.com/solidjs-community/solid-cli)
+Output goes to `dist/`. Deploy the folder to any static host (Netlify, Vercel, GitHub Pages, etc.).
+
+### Preview production build locally
+
+```bash
+bun run serve
+```
