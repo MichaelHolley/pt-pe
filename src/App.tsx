@@ -1,14 +1,26 @@
-import { createEffect, createMemo, For, type Component } from 'solid-js'
+import { createEffect, createMemo, createSignal, onMount, onCleanup, For, type Component } from 'solid-js'
 import { createStore } from 'solid-js/store'
 import { calcTeamResult } from './utils/calculator'
 import { loadState, saveState } from './utils/storage'
 import TimeframeSection from './components/TimeframeSection'
 import PersonCard from './components/PersonCard'
 import ResultsPanel from './components/ResultsPanel'
+import FloatingFooter from './components/FloatingFooter'
 import type { Person } from './utils/calculator'
 
 const App: Component = () => {
   const [state, setState] = createStore(loadState())
+  const [resultsVisible, setResultsVisible] = createSignal(true)
+  let resultsRef: HTMLElement | undefined
+
+  onMount(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setResultsVisible(entry.isIntersecting),
+      { threshold: 0 }
+    )
+    if (resultsRef) observer.observe(resultsRef)
+    onCleanup(() => observer.disconnect())
+  })
 
   createEffect(() => saveState({ ...state, persons: [...state.persons] }))
 
@@ -80,8 +92,12 @@ const App: Component = () => {
           </button>
         </section>
 
-        <ResultsPanel result={result()} />
+        <div ref={resultsRef}>
+          <ResultsPanel result={result()} />
+        </div>
       </div>
+
+      <FloatingFooter totalPT={result().totalPT} visible={!resultsVisible()} />
     </div>
   )
 }
