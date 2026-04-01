@@ -10,14 +10,18 @@ export interface AppState {
 
 const KEY = 'pt-planner'
 
+function localISO(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
 function today(): string {
-  return new Date().toISOString().slice(0, 10)
+  return localISO(new Date())
 }
 
 function defaultEndDate(): string {
   const d = new Date()
   d.setDate(d.getDate() + 14)
-  return d.toISOString().slice(0, 10)
+  return localISO(d)
 }
 
 const DEFAULT_STATE: AppState = {

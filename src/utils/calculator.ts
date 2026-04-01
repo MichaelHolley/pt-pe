@@ -33,7 +33,7 @@ export function getWorkingDays(
 
   while (cur <= end) {
     const dow = cur.getDay() // 0=Sun, 1=Mon … 6=Sat
-    const iso = cur.toISOString().slice(0, 10)
+    const iso = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}-${String(cur.getDate()).padStart(2, '0')}`
     if (dow !== 0 && dow !== 6 && !blockedWeekdays.includes(dow) && !blockedSet.has(iso)) {
       count++
     }
