@@ -1,6 +1,6 @@
 # PT Planner
 
-A lightweight, frontend-only tool for estimating how many **Projekt Tage (PT)** a team can realistically achieve within a given timeframe.
+A lightweight, frontend-only tool for estimating how many **Personen-Tage (PT)** a team can realistically achieve within a given timeframe.
 
 One PT = 8 hours of work.
 
