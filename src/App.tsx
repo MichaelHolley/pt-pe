@@ -19,7 +19,8 @@ import type { Person } from "./utils/calculator";
 const App: Component = () => {
   const [state, setState] = createStore(loadState());
   const [resultsVisible, setResultsVisible] = createSignal(true);
-  let resultsRef: HTMLElement | undefined;
+  // eslint-disable-next-line no-unassigned-vars
+  let resultsRef: HTMLDivElement | undefined;
 
   onMount(() => {
     const observer = new IntersectionObserver(
