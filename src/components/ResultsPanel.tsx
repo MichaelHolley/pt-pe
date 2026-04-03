@@ -1,8 +1,8 @@
-import { For, type Component } from 'solid-js'
-import type { TeamResult } from '../utils/calculator'
+import { For, type Component } from "solid-js";
+import type { TeamResult } from "../utils/calculator";
 
 interface Props {
-  result: TeamResult
+  result: TeamResult;
 }
 
 const ResultsPanel: Component<Props> = (props) => {
@@ -21,9 +21,12 @@ const ResultsPanel: Component<Props> = (props) => {
           {(r) => (
             <div class="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-100">
               <div class="flex flex-col">
-                <span class="text-sm font-semibold text-gray-800">{r.person.name || 'Unnamed'}</span>
+                <span class="text-sm font-semibold text-gray-800">
+                  {r.person.name || "Unnamed"}
+                </span>
                 <span class="text-xs text-gray-500">
-                  {r.workingDays} working days · {r.grossHours.toFixed(1)}h gross → {r.netHours.toFixed(1)}h net
+                  {r.workingDays} working days · {r.grossHours.toFixed(1)}h gross →{" "}
+                  {r.netHours.toFixed(1)}h net
                 </span>
               </div>
               <div class="flex items-baseline gap-1">
@@ -35,7 +38,7 @@ const ResultsPanel: Component<Props> = (props) => {
         </For>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ResultsPanel
+export default ResultsPanel;

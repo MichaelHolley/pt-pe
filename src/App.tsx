@@ -44,9 +44,7 @@ const App: Component = () => {
 
   const toggleGlobalBlockedDate = (date: string) => {
     setState("globalBlockedDates", (dates) =>
-      dates.includes(date)
-        ? dates.filter((d) => d !== date)
-        : [...dates, date].sort(),
+      dates.includes(date) ? dates.filter((d) => d !== date) : [...dates, date].sort(),
     );
   };
 
@@ -76,9 +74,7 @@ const App: Component = () => {
         <header class="flex items-start justify-between">
           <div>
             <h1 class="text-2xl font-bold text-gray-900">PT Planner</h1>
-            <p class="text-sm text-gray-500 mt-1">
-              Estimate achievable Projekt Tage for your team
-            </p>
+            <p class="text-sm text-gray-500 mt-1">Estimate achievable Projekt Tage for your team</p>
           </div>
           <a
             href="https://github.com/MichaelHolley/pt-pe"
@@ -112,9 +108,7 @@ const App: Component = () => {
         />
 
         <section class="flex flex-col gap-3">
-          <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500">
-            Team
-          </h2>
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Team</h2>
           <For each={state.persons}>
             {(person) => (
               <PersonCard

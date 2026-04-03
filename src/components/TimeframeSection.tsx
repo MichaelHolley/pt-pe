@@ -1,15 +1,15 @@
-import type { Component } from 'solid-js'
-import WeekCalendar from './WeekCalendar'
+import type { Component } from "solid-js";
+import WeekCalendar from "./WeekCalendar";
 
 interface Props {
-  startDate: string
-  endDate: string
-  efficiencyPercent: number
-  globalBlockedDates: string[]
-  onStartDate: (v: string) => void
-  onEndDate: (v: string) => void
-  onEfficiency: (v: number) => void
-  onToggleBlockedDate: (date: string) => void
+  startDate: string;
+  endDate: string;
+  efficiencyPercent: number;
+  globalBlockedDates: string[];
+  onStartDate: (v: string) => void;
+  onEndDate: (v: string) => void;
+  onEfficiency: (v: number) => void;
+  onToggleBlockedDate: (date: string) => void;
 }
 
 const TimeframeSection: Component<Props> = (props) => {
@@ -22,7 +22,7 @@ const TimeframeSection: Component<Props> = (props) => {
           <input
             type="date"
             value={props.startDate}
-            onInput={e => props.onStartDate(e.currentTarget.value)}
+            onInput={(e) => props.onStartDate(e.currentTarget.value)}
             class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
@@ -31,7 +31,7 @@ const TimeframeSection: Component<Props> = (props) => {
           <input
             type="date"
             value={props.endDate}
-            onInput={e => props.onEndDate(e.currentTarget.value)}
+            onInput={(e) => props.onEndDate(e.currentTarget.value)}
             class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
@@ -43,7 +43,9 @@ const TimeframeSection: Component<Props> = (props) => {
               min="1"
               max="100"
               value={props.efficiencyPercent}
-              onInput={e => props.onEfficiency(Math.min(100, Math.max(1, Number(e.currentTarget.value))))}
+              onInput={(e) =>
+                props.onEfficiency(Math.min(100, Math.max(1, Number(e.currentTarget.value))))
+              }
               class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <span class="text-sm text-gray-500">%</span>
@@ -57,7 +59,7 @@ const TimeframeSection: Component<Props> = (props) => {
         onToggle={props.onToggleBlockedDate}
       />
     </section>
-  )
-}
+  );
+};
 
-export default TimeframeSection
+export default TimeframeSection;
