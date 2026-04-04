@@ -19,12 +19,6 @@ interface Props {
 const PersonCard: Component<Props> = (props) => {
   const update = (patch: Partial<Person>) => props.onUpdate({ ...props.person, ...patch });
 
-  const toggleWeekday = (day: number) => {
-    const current = props.person.blockedWeekdays;
-    const next = current.includes(day) ? current.filter((d) => d !== day) : [...current, day];
-    update({ blockedWeekdays: next });
-  };
-
   const addBlockedDate = (date: string) => {
     if (!date || props.person.blockedDates.includes(date)) return;
     update({ blockedDates: [...props.person.blockedDates, date].sort() });
@@ -49,21 +43,6 @@ const PersonCard: Component<Props> = (props) => {
           onInput={(e) => update({ name: e.currentTarget.value })}
           class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <label class="flex items-center gap-2 shrink-0">
-          <span class="text-sm text-gray-600">h/week</span>
-          <input
-            type="number"
-            min="1"
-            max="80"
-            value={props.person.hoursPerWeek}
-            onInput={(e) =>
-              update({
-                hoursPerWeek: Math.max(1, Number(e.currentTarget.value)),
-              })
-            }
-            class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </label>
         {props.canRemove && (
           <button
             onClick={props.onRemove}
@@ -77,25 +56,26 @@ const PersonCard: Component<Props> = (props) => {
 
       <div class="flex flex-col gap-2">
         <span class="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Blocked weekdays
+          Hours per day
         </span>
-        <div class="flex gap-2">
+        <div class="flex gap-3">
           <For each={WEEKDAYS}>
-            {(day) => {
-              const active = () => props.person.blockedWeekdays.includes(day.value);
-              return (
-                <button
-                  onClick={() => toggleWeekday(day.value)}
-                  class={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
-                    active()
-                      ? "bg-red-100 border-red-300 text-red-700"
-                      : "bg-gray-100 border-gray-200 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {day.label}
-                </button>
-              );
-            }}
+            {(day) => (
+              <label class="flex flex-col items-center gap-1">
+                <span class="text-xs text-gray-500">{day.label}</span>
+                <input
+                  type="number"
+                  min="0"
+                  max="24"
+                  value={props.person.hoursPerDay[day.value as keyof typeof props.person.hoursPerDay]}
+                  onInput={(e) => {
+                    const hours = Math.min(24, Math.max(0, Number(e.currentTarget.value)));
+                    update({ hoursPerDay: { ...props.person.hoursPerDay, [day.value]: hours } });
+                  }}
+                  class="border border-gray-300 rounded-lg px-2 py-2 text-sm w-14 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </label>
+            )}
           </For>
         </div>
       </div>

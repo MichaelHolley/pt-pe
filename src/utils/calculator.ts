@@ -1,8 +1,15 @@
+export interface HoursPerDay {
+  1: number;
+  2: number;
+  3: number;
+  4: number;
+  5: number;
+}
+
 export interface Person {
   id: string;
   name: string;
-  hoursPerWeek: number;
-  blockedWeekdays: number[]; // 1=Mon … 5=Fri
+  hoursPerDay: HoursPerDay; // 1=Mon … 5=Fri
   blockedDates: string[]; // ISO strings e.g. "2026-04-15"
 }
 
@@ -22,7 +29,6 @@ export interface TeamResult {
 export function getWorkingDays(
   startISO: string,
   endISO: string,
-  blockedWeekdays: number[],
   blockedDates: string[],
   globalBlockedDates: string[] = [],
 ): number {
@@ -34,7 +40,7 @@ export function getWorkingDays(
   while (cur <= end) {
     const dow = cur.getDay(); // 0=Sun, 1=Mon … 6=Sat
     const iso = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`;
-    if (dow !== 0 && dow !== 6 && !blockedWeekdays.includes(dow) && !blockedSet.has(iso)) {
+    if (dow !== 0 && dow !== 6 && !blockedSet.has(iso)) {
       count++;
     }
     cur.setDate(cur.getDate() + 1);
@@ -49,15 +55,26 @@ export function calcPersonResult(
   efficiencyPercent: number,
   globalBlockedDates: string[] = [],
 ): PersonResult {
-  const dailyHours = person.hoursPerWeek / 5;
-  const workingDays = getWorkingDays(
-    startISO,
-    endISO,
-    person.blockedWeekdays,
-    person.blockedDates,
-    globalBlockedDates,
-  );
-  const grossHours = workingDays * dailyHours;
+  const blockedSet = new Set([...person.blockedDates, ...globalBlockedDates]);
+  let workingDays = 0;
+  let grossHours = 0;
+
+  const cur = new Date(startISO + "T00:00:00");
+  const end = new Date(endISO + "T00:00:00");
+
+  while (cur <= end) {
+    const dow = cur.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    const iso = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`;
+    if (dow >= 1 && dow <= 5 && !blockedSet.has(iso)) {
+      const hours = person.hoursPerDay[dow as keyof typeof person.hoursPerDay] ?? 0;
+      if (hours > 0) {
+        workingDays++;
+        grossHours += hours;
+      }
+    }
+    cur.setDate(cur.getDate() + 1);
+  }
+
   const netHours = grossHours * (efficiencyPercent / 100);
   const pt = netHours / 8;
   return { person, workingDays, grossHours, netHours, pt };

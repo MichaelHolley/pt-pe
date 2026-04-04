@@ -24,6 +24,8 @@ function defaultEndDate(): string {
   return localISO(d);
 }
 
+const DEFAULT_HOURS_PER_DAY = { 1: 8, 2: 8, 3: 8, 4: 8, 5: 8 };
+
 const DEFAULT_STATE: AppState = {
   startDate: today(),
   endDate: defaultEndDate(),
@@ -33,15 +35,13 @@ const DEFAULT_STATE: AppState = {
     {
       id: "1",
       name: "Person A",
-      hoursPerWeek: 40,
-      blockedWeekdays: [],
+      hoursPerDay: { ...DEFAULT_HOURS_PER_DAY },
       blockedDates: [],
     },
     {
       id: "2",
       name: "Person B",
-      hoursPerWeek: 40,
-      blockedWeekdays: [],
+      hoursPerDay: { ...DEFAULT_HOURS_PER_DAY },
       blockedDates: [],
     },
   ],
@@ -51,10 +51,7 @@ export function loadState(): AppState {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return DEFAULT_STATE;
-    const parsed = JSON.parse(raw) as AppState;
-    // backfill field added after initial release
-    if (!parsed.globalBlockedDates) parsed.globalBlockedDates = [];
-    return parsed;
+    return JSON.parse(raw) as AppState;
   } catch {
     return DEFAULT_STATE;
   }

@@ -53,8 +53,7 @@ const App: Component = () => {
     const newPerson: Person = {
       id: crypto.randomUUID(),
       name: `Person ${String.fromCharCode(65 + state.persons.length)}`,
-      hoursPerWeek: 40,
-      blockedWeekdays: [],
+      hoursPerDay: { 1: 8, 2: 8, 3: 8, 4: 8, 5: 8 },
       blockedDates: [],
     };
     setState("persons", (p) => [...p, newPerson]);
