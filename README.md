@@ -8,8 +8,7 @@ One PT = 8 hours of work.
 
 - **Timeframe selection** — pick a start and end date; the app renders a Mon–Fri week grid for the full range
 - **Global blocked days** — click any day in the calendar to block it for the entire team (e.g. company holidays); click again to unblock
-- **Dynamic team roster** — add or remove team members; each member has a configurable name and weekly hours
-- **Per-person blocked weekdays** — mark recurring days off per person (e.g. every Thursday for a part-time employee)
+- **Dynamic team roster** — add or remove team members; each member has a configurable name and per-weekday hours
 - **Per-person blocked dates** — block specific calendar dates per person (e.g. individual vacation days)
 - **Efficiency factor** — a global percentage (default 85%) applied to gross available hours to account for meetings and overhead
 - **Live results** — total achievable PT plus a per-person breakdown of working days, gross hours, net hours, and PT contribution
@@ -21,12 +20,11 @@ One PT = 8 hours of work.
 For each team member:
 
 ```
-daily_hours  = hours_per_week / 5
 working_days = days in [start, end] that are Mon–Fri
-               AND not a blocked weekday for this person
                AND not a blocked date for this person
                AND not a globally blocked date
-gross_hours  = working_days × daily_hours
+               AND hoursPerDay[weekday] > 0
+gross_hours  = sum of hoursPerDay[weekday] for each working day
 net_hours    = gross_hours × (efficiency_percent / 100)
 PT           = net_hours / 8
 ```

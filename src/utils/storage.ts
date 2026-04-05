@@ -51,8 +51,14 @@ export function loadState(): AppState {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return DEFAULT_STATE;
-    return JSON.parse(raw) as AppState;
+    const parsed = JSON.parse(raw) as AppState;
+    if (!Array.isArray(parsed.persons) || parsed.persons.length === 0) {
+      localStorage.removeItem(KEY);
+      return DEFAULT_STATE;
+    }
+    return parsed;
   } catch {
+    localStorage.removeItem(KEY);
     return DEFAULT_STATE;
   }
 }

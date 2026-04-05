@@ -38,19 +38,21 @@ interface AppState {
 
 // calculator.ts
 interface Person {
-  // ...
+  id: string;
+  name: string;
+  hoursPerDay: { 1: number; 2: number; 3: number; 4: number; 5: number }; // 1=Mon … 5=Fri
+  blockedDates: string[];
 }
 ```
 
 ## Calculation
 
 ```
-daily_hours  = hoursPerWeek / 5
 working_days = days in [start, end] that are Mon–Fri
-               AND not in blockedWeekdays
                AND not in blockedDates
                AND not in globalBlockedDates
-gross_hours  = working_days × daily_hours
+               AND hoursPerDay[weekday] > 0
+gross_hours  = sum of hoursPerDay[weekday] for each working day
 net_hours    = gross_hours × (efficiencyPercent / 100)
 PT           = net_hours / 8
 ```
@@ -60,4 +62,4 @@ PT           = net_hours / 8
 - Use `createStore` (not `createSignal`) for nested state; update via path syntax:
   `setState('persons', idx, updatedPerson)` — **not** `p.map(...)`, which creates new references and causes `<For>` to remount components and lose input focus.
 - Date strings must be formatted with `getFullYear()/getMonth()/getDate()` (local time). **Never use `toISOString().slice(0,10)`** — it outputs UTC and causes off-by-one date bugs in UTC+ timezones.
-- All state persists to `localStorage` under key `pt-planner`. `loadState()` backfills missing fields for forward compatibility.
+- All state persists to `localStorage` under key `pt-planner`. No migration logic — old data from incompatible versions is discarded and replaced with defaults.
