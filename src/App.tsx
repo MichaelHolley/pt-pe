@@ -133,7 +133,7 @@ const App: Component = () => {
           </For>
           <button
             onClick={addPerson}
-            class="w-full py-3 rounded-xl border-2 border-dashed border-gray-300 text-gray-500 hover:border-blue-400 hover:text-blue-500 transition-colors text-sm font-medium"
+            class="w-full py-3 rounded-xl border-2 border-dashed border-gray-200 text-gray-400 hover:border-blue-300 hover:text-blue-500 hover:bg-blue-50/40 transition-all text-sm font-medium"
           >
             + Add Person
           </button>
@@ -148,6 +148,7 @@ const App: Component = () => {
         realisticPT={realisticResult().totalPT}
         optimisticPT={optimisticResult().totalPT}
         visible={!resultsVisible()}
+        onScrollToResults={() => resultsRef?.scrollIntoView({ behavior: "smooth" })}
       />
     </div>
   );
