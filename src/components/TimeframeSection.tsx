@@ -4,11 +4,13 @@ import WeekCalendar from "./WeekCalendar";
 interface Props {
   startDate: string;
   endDate: string;
-  efficiencyPercent: number;
+  realisticEfficiency: number;
+  optimisticEfficiency: number;
   globalBlockedDates: string[];
   onStartDate: (v: string) => void;
   onEndDate: (v: string) => void;
-  onEfficiency: (v: number) => void;
+  onRealisticEfficiency: (v: number) => void;
+  onOptimisticEfficiency: (v: number) => void;
   onToggleBlockedDate: (date: string) => void;
 }
 
@@ -36,15 +38,31 @@ const TimeframeSection: Component<Props> = (props) => {
           />
         </label>
         <label class="flex flex-col gap-1">
-          <span class="text-sm font-medium text-gray-700">Efficiency</span>
+          <span class="text-sm font-medium text-gray-700">Realistic %</span>
           <div class="flex items-center gap-2">
             <input
               type="number"
               min="1"
               max="100"
-              value={props.efficiencyPercent}
+              value={props.realisticEfficiency}
               onInput={(e) =>
-                props.onEfficiency(Math.min(100, Math.max(1, Number(e.currentTarget.value))))
+                props.onRealisticEfficiency(Math.min(100, Math.max(1, Number(e.currentTarget.value))))
+              }
+              class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <span class="text-sm text-gray-500">%</span>
+          </div>
+        </label>
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-medium text-gray-700">Optimistic %</span>
+          <div class="flex items-center gap-2">
+            <input
+              type="number"
+              min="1"
+              max="100"
+              value={props.optimisticEfficiency}
+              onInput={(e) =>
+                props.onOptimisticEfficiency(Math.min(100, Math.max(1, Number(e.currentTarget.value))))
               }
               class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />

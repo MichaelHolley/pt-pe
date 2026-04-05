@@ -33,12 +33,22 @@ const App: Component = () => {
 
   createEffect(() => saveState({ ...state, persons: [...state.persons] }));
 
-  const result = createMemo(() =>
+  const realisticResult = createMemo(() =>
     calcTeamResult(
       state.persons,
       state.startDate,
       state.endDate,
-      state.efficiencyPercent,
+      state.realisticEfficiency,
+      state.globalBlockedDates,
+    ),
+  );
+
+  const optimisticResult = createMemo(() =>
+    calcTeamResult(
+      state.persons,
+      state.startDate,
+      state.endDate,
+      state.optimisticEfficiency,
       state.globalBlockedDates,
     ),
   );
@@ -99,11 +109,13 @@ const App: Component = () => {
         <TimeframeSection
           startDate={state.startDate}
           endDate={state.endDate}
-          efficiencyPercent={state.efficiencyPercent}
+          realisticEfficiency={state.realisticEfficiency}
+          optimisticEfficiency={state.optimisticEfficiency}
           globalBlockedDates={state.globalBlockedDates}
           onStartDate={(v) => setState("startDate", v)}
           onEndDate={(v) => setState("endDate", v)}
-          onEfficiency={(v) => setState("efficiencyPercent", v)}
+          onRealisticEfficiency={(v) => setState("realisticEfficiency", v)}
+          onOptimisticEfficiency={(v) => setState("optimisticEfficiency", v)}
           onToggleBlockedDate={toggleGlobalBlockedDate}
         />
 
@@ -128,11 +140,15 @@ const App: Component = () => {
         </section>
 
         <div ref={resultsRef}>
-          <ResultsPanel result={result()} />
+          <ResultsPanel realisticResult={realisticResult()} optimisticResult={optimisticResult()} />
         </div>
       </div>
 
-      <FloatingFooter totalPT={result().totalPT} visible={!resultsVisible()} />
+      <FloatingFooter
+        realisticPT={realisticResult().totalPT}
+        optimisticPT={optimisticResult().totalPT}
+        visible={!resultsVisible()}
+      />
     </div>
   );
 };

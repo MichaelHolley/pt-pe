@@ -1,7 +1,8 @@
 import type { Component } from "solid-js";
 
 interface Props {
-  totalPT: number;
+  realisticPT: number;
+  optimisticPT: number;
   visible: boolean;
 }
 
@@ -12,9 +13,22 @@ const FloatingFooter: Component<Props> = (props) => {
         props.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
       }`}
     >
-      <div class="bg-gray-900 text-white rounded-full px-6 py-3 shadow-xl flex items-baseline gap-2 pointer-events-auto">
-        <span class="text-2xl font-bold text-blue-400">{props.totalPT.toFixed(2)}</span>
-        <span class="text-base font-medium text-gray-300">PT achievable</span>
+      <div class="bg-gray-900 text-white rounded-full px-6 py-3 shadow-xl flex items-center gap-3 pointer-events-auto">
+        <div class="flex flex-col items-center">
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-500 leading-none mb-0.5">Realistic</span>
+          <div class="flex items-baseline gap-1">
+            <span class="text-2xl font-bold text-blue-400">{props.realisticPT.toFixed(2)}</span>
+            <span class="text-sm font-medium text-gray-400">PT</span>
+          </div>
+        </div>
+        <span class="text-gray-600 font-medium">–</span>
+        <div class="flex flex-col items-center">
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-500 leading-none mb-0.5">Optimistic</span>
+          <div class="flex items-baseline gap-1">
+            <span class="text-2xl font-bold text-green-400">{props.optimisticPT.toFixed(2)}</span>
+            <span class="text-sm font-medium text-gray-400">PT</span>
+          </div>
+        </div>
       </div>
     </div>
   );

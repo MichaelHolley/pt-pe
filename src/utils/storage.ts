@@ -3,7 +3,8 @@ import type { Person } from "./calculator";
 export interface AppState {
   startDate: string;
   endDate: string;
-  efficiencyPercent: number;
+  realisticEfficiency: number;
+  optimisticEfficiency: number;
   globalBlockedDates: string[];
   persons: Person[];
 }
@@ -29,7 +30,8 @@ const DEFAULT_HOURS_PER_DAY = { 1: 8, 2: 8, 3: 8, 4: 8, 5: 8 };
 const DEFAULT_STATE: AppState = {
   startDate: today(),
   endDate: defaultEndDate(),
-  efficiencyPercent: 85,
+  realisticEfficiency: 75,
+  optimisticEfficiency: 90,
   globalBlockedDates: [],
   persons: [
     {
@@ -51,12 +53,12 @@ export function loadState(): AppState {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return DEFAULT_STATE;
-    const parsed = JSON.parse(raw) as AppState;
+    const parsed = JSON.parse(raw) as Partial<AppState>;
     if (!Array.isArray(parsed.persons) || parsed.persons.length === 0) {
       localStorage.removeItem(KEY);
       return DEFAULT_STATE;
     }
-    return parsed;
+    return { ...DEFAULT_STATE, ...parsed };
   } catch {
     localStorage.removeItem(KEY);
     return DEFAULT_STATE;
