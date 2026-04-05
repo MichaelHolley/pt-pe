@@ -83,9 +83,14 @@ const PersonCard: Component<Props> = (props) => {
       <div class="px-6 py-5 flex flex-col gap-5">
         {/* Hours per day */}
         <div class="flex flex-col gap-3">
-          <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
-            Hours per day
-          </span>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
+              Hours per day
+            </span>
+            <span class="text-xs font-semibold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">
+              {Object.values(props.person.hoursPerDay).reduce((a, b) => a + b, 0)}h / week
+            </span>
+          </div>
           <div class="flex gap-2">
             <For each={WEEKDAYS}>
               {(day) => (
