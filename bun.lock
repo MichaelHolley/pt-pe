@@ -5,6 +5,8 @@
     "": {
       "name": "vite-template-solid",
       "dependencies": {
+        "apexcharts": "^5.10.5",
+        "solid-apexcharts": "^0.6.0",
         "solid-js": "^1.9.9",
       },
       "devDependencies": {
@@ -310,6 +312,8 @@
 
     "@types/estree": ["@types/estree@1.0.8", "", {}, "sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w=="],
 
+    "apexcharts": ["apexcharts@5.10.5", "", {}, "sha512-RirosfLQLqYpWBdn4Pdv9B1M0M2FepzVxPRpcuXQPTilvuZvKt02vgVlEexhCVu2p4fApDIV/3yC9voAIK+qjw=="],
+
     "babel-plugin-jsx-dom-expressions": ["babel-plugin-jsx-dom-expressions@0.40.1", "", { "dependencies": { "@babel/helper-module-imports": "7.18.6", "@babel/plugin-syntax-jsx": "7.27.1", "@babel/types": "7.28.4", "html-entities": "2.3.3", "parse5": "7.3.0", "validate-html-nesting": "1.2.3" }, "peerDependencies": { "@babel/core": "7.28.4" } }, "sha512-b4iHuirqK7RgaMzB2Lsl7MqrlDgQtVRSSazyrmx7wB3T759ggGjod5Rkok5MfHjQXhR7tRPmdwoeGPqBnW2KfA=="],
 
     "babel-preset-solid": ["babel-preset-solid@1.9.9", "", { "dependencies": { "babel-plugin-jsx-dom-expressions": "0.40.1" }, "optionalDependencies": { "solid-js": "1.9.9" }, "peerDependencies": { "@babel/core": "7.28.4" } }, "sha512-pCnxWrciluXCeli/dj5PIEHgbNzim3evtTn12snjqqg8QZWJNMjH1AWIp4iG/tbVjqQ72aBEymMSagvmgxubXw=="],
@@ -325,6 +329,8 @@
     "csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "debug": ["debug@4.4.1", "", { "dependencies": { "ms": "2.1.3" } }, "sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ=="],
+
+    "defu": ["defu@6.1.7", "", {}, "sha512-7z22QmUWiQ/2d0KkdYmANbRUVABpZ9SNYyH5vx6PZ+nE5bcC0l7uFvEfHlyld/HcGBFTL536ClDt3DEcSlEJAQ=="],
 
     "detect-libc": ["detect-libc@2.0.4", "", {}, "sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA=="],
 
@@ -417,6 +423,8 @@
     "seroval": ["seroval@1.3.2", "", {}, "sha512-RbcPH1n5cfwKrru7v7+zrZvjLurgHhGyso3HTyGtRivGWgYjbOmGuivCQaORNELjNONoK35nj28EoWul9sb1zQ=="],
 
     "seroval-plugins": ["seroval-plugins@1.3.3", "", { "peerDependencies": { "seroval": "1.3.2" } }, "sha512-16OL3NnUBw8JG1jBLUoZJsLnQq0n5Ua6aHalhJK4fMQkz1lqR7Osz1sA30trBtd9VUDc2NgkuRCn8+/pBwqZ+w=="],
+
+    "solid-apexcharts": ["solid-apexcharts@0.6.0", "", { "dependencies": { "defu": "^6.1.4" }, "peerDependencies": { "apexcharts": "^4.0.0 || ^5.0.0", "solid-js": "^1.6.0" } }, "sha512-C/zZB7lmtHF1TN3TL5P6CCju53Z0lCk4XeDuhs58DXbvdSCphtp6Ak0WMhAapUvSNz5xCwOszPRNMh5MgC9vbA=="],
 
     "solid-devtools": ["solid-devtools@0.34.3", "", { "dependencies": { "@babel/core": "7.28.4", "@babel/plugin-syntax-typescript": "7.27.1", "@babel/types": "7.28.4", "@solid-devtools/debugger": "0.28.1", "@solid-devtools/shared": "0.20.0" }, "optionalDependencies": { "vite": "7.1.10" }, "peerDependencies": { "solid-js": "1.9.9" } }, "sha512-ZQua959n+Zu3sLbm9g0IRjYUb1YYlYbu83PWLRoKbSsq0a3ItQNhnS2OBU7rQNmOKZiMexNo9Z3izas9BcOKDg=="],
 

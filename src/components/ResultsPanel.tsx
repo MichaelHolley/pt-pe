@@ -1,5 +1,6 @@
 import { For, type Component } from "solid-js";
 import type { TeamResult } from "../utils/calculator";
+import ChartsPanel from "./ChartsPanel";
 
 interface Props {
   realisticResult: TeamResult;
@@ -67,6 +68,8 @@ const ResultsPanel: Component<Props> = (props) => {
           }}
         </For>
       </div>
+
+      <ChartsPanel realisticResult={props.realisticResult} optimisticResult={props.optimisticResult} />
     </section>
   );
 };
