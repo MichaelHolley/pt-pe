@@ -10,6 +10,9 @@ export interface AppState {
 }
 
 const KEY = "pt-planner";
+const STORAGE_VERSION = 1;
+
+type StoredState = AppState & { version: number };
 
 function localISO(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -53,7 +56,11 @@ export function loadState(): AppState {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return DEFAULT_STATE;
-    const parsed = JSON.parse(raw) as Partial<AppState>;
+    const parsed = JSON.parse(raw) as Partial<StoredState>;
+    if (parsed.version !== STORAGE_VERSION) {
+      localStorage.removeItem(KEY);
+      return DEFAULT_STATE;
+    }
     if (!Array.isArray(parsed.persons) || parsed.persons.length === 0) {
       localStorage.removeItem(KEY);
       return DEFAULT_STATE;
@@ -66,5 +73,6 @@ export function loadState(): AppState {
 }
 
 export function saveState(state: AppState): void {
-  localStorage.setItem(KEY, JSON.stringify(state));
+  const stored: StoredState = { ...state, version: STORAGE_VERSION };
+  localStorage.setItem(KEY, JSON.stringify(stored));
 }
