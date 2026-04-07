@@ -24,7 +24,7 @@ const ResultsPanel: Component<Props> = (props) => {
         <div class="flex flex-col items-center bg-gray-50 rounded-xl border border-gray-100 px-4 py-3">
           <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">Optimistic</span>
           <div class="flex items-baseline gap-1">
-            <span class="text-3xl font-bold text-green-600">{props.optimisticResult.totalPT.toFixed(2)}</span>
+            <span class="text-3xl font-bold text-blue-400">{props.optimisticResult.totalPT.toFixed(2)}</span>
             <span class="text-base font-semibold text-gray-400">PT</span>
           </div>
         </div>
@@ -58,7 +58,7 @@ const ResultsPanel: Component<Props> = (props) => {
                   </div>
                   <span class="text-gray-300">–</span>
                   <div class="flex items-baseline gap-1">
-                    <span class="text-lg font-bold text-green-600">{opt()?.pt.toFixed(2)}</span>
+                    <span class="text-lg font-bold text-blue-400">{opt()?.pt.toFixed(2)}</span>
                     <span class="text-xs text-gray-400">PT</span>
                   </div>
                 </div>

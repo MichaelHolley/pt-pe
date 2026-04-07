@@ -29,7 +29,7 @@ const FloatingFooter: Component<Props> = (props) => {
         <div class="flex flex-col items-center">
           <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-500 leading-none mb-0.5">Optimistic</span>
           <div class="flex items-baseline gap-1">
-            <span class="text-2xl font-bold text-green-400">{props.optimisticPT.toFixed(2)}</span>
+            <span class="text-2xl font-bold text-blue-300">{props.optimisticPT.toFixed(2)}</span>
             <span class="text-sm font-medium text-gray-400">PT</span>
           </div>
         </div>
