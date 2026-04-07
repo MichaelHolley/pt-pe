@@ -80,6 +80,48 @@ export function calcPersonResult(
   return { person, workingDays, grossHours, netHours, pt };
 }
 
+export interface DailyPT {
+  date: string; // formatted label e.g. "Apr 7"
+  cumPT: number;
+}
+
+export function calcDailyCumulativePT(
+  persons: Person[],
+  startISO: string,
+  endISO: string,
+  efficiencyPercent: number,
+  globalBlockedDates: string[] = [],
+): DailyPT[] {
+  const globalSet = new Set(globalBlockedDates);
+  const result: DailyPT[] = [];
+  let cumulative = 0;
+
+  const cur = new Date(startISO + "T00:00:00");
+  const end = new Date(endISO + "T00:00:00");
+
+  while (cur <= end) {
+    const dow = cur.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    const iso = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`;
+    const label = cur.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+
+    if (dow >= 1 && dow <= 5 && !globalSet.has(iso)) {
+      let dayHours = 0;
+      for (const person of persons) {
+        if (!person.blockedDates.includes(iso)) {
+          const h = person.hoursPerDay[dow as keyof HoursPerDay] ?? 0;
+          dayHours += h;
+        }
+      }
+      cumulative += (dayHours * (efficiencyPercent / 100)) / 8;
+    }
+
+    result.push({ date: label, cumPT: parseFloat(cumulative.toFixed(2)) });
+    cur.setDate(cur.getDate() + 1);
+  }
+
+  return result;
+}
+
 export function calcTeamResult(
   persons: Person[],
   startISO: string,

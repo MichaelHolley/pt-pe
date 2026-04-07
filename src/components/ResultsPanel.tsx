@@ -1,10 +1,12 @@
 import { For, type Component } from "solid-js";
-import type { TeamResult } from "../utils/calculator";
+import type { TeamResult, DailyPT } from "../utils/calculator";
 import ChartsPanel from "./ChartsPanel";
 
 interface Props {
   realisticResult: TeamResult;
   optimisticResult: TeamResult;
+  realisticCumulative: DailyPT[];
+  optimisticCumulative: DailyPT[];
 }
 
 const ResultsPanel: Component<Props> = (props) => {
@@ -69,7 +71,12 @@ const ResultsPanel: Component<Props> = (props) => {
         </For>
       </div>
 
-      <ChartsPanel realisticResult={props.realisticResult} optimisticResult={props.optimisticResult} />
+      <ChartsPanel
+        realisticResult={props.realisticResult}
+        optimisticResult={props.optimisticResult}
+        realisticCumulative={props.realisticCumulative}
+        optimisticCumulative={props.optimisticCumulative}
+      />
     </section>
   );
 };

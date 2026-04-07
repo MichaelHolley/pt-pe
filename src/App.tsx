@@ -8,7 +8,7 @@ import {
   type Component,
 } from "solid-js";
 import { createStore } from "solid-js/store";
-import { calcTeamResult } from "./utils/calculator";
+import { calcTeamResult, calcDailyCumulativePT } from "./utils/calculator";
 import { loadState, saveState } from "./utils/storage";
 import TimeframeSection from "./components/TimeframeSection";
 import PersonCard from "./components/PersonCard";
@@ -45,6 +45,26 @@ const App: Component = () => {
 
   const optimisticResult = createMemo(() =>
     calcTeamResult(
+      state.persons,
+      state.startDate,
+      state.endDate,
+      state.optimisticEfficiency,
+      state.globalBlockedDates,
+    ),
+  );
+
+  const realisticCumulative = createMemo(() =>
+    calcDailyCumulativePT(
+      state.persons,
+      state.startDate,
+      state.endDate,
+      state.realisticEfficiency,
+      state.globalBlockedDates,
+    ),
+  );
+
+  const optimisticCumulative = createMemo(() =>
+    calcDailyCumulativePT(
       state.persons,
       state.startDate,
       state.endDate,
@@ -140,7 +160,12 @@ const App: Component = () => {
         </section>
 
         <div ref={resultsRef}>
-          <ResultsPanel realisticResult={realisticResult()} optimisticResult={optimisticResult()} />
+          <ResultsPanel
+            realisticResult={realisticResult()}
+            optimisticResult={optimisticResult()}
+            realisticCumulative={realisticCumulative()}
+            optimisticCumulative={optimisticCumulative()}
+          />
         </div>
       </div>
 

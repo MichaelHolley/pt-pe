@@ -1,11 +1,13 @@
 import { createMemo, type Component } from "solid-js";
 import { SolidApexCharts } from "solid-apexcharts";
 import type { ApexOptions } from "apexcharts";
-import type { TeamResult } from "../utils/calculator";
+import type { TeamResult, DailyPT } from "../utils/calculator";
 
 interface Props {
   realisticResult: TeamResult;
   optimisticResult: TeamResult;
+  realisticCumulative: DailyPT[];
+  optimisticCumulative: DailyPT[];
 }
 
 // One distinct hue per person — shared across both charts so color = person identity
@@ -129,7 +131,61 @@ const ChartsPanel: Component<Props> = (props) => {
     tooltip: { y: { formatter: (val: number) => `${val.toFixed(2)} PT` } },
   }));
 
+  const cumulativeSeries = createMemo(() => [
+    {
+      name: "Realistic",
+      data: props.realisticCumulative.map((d) => d.cumPT),
+    },
+    {
+      name: "Optimistic",
+      data: props.optimisticCumulative.map((d) => d.cumPT),
+    },
+  ]);
+
+  const cumulativeOptions = createMemo<ApexOptions>(() => ({
+    chart: {
+      type: "line",
+      toolbar: { show: false },
+      fontFamily: "inherit",
+      background: "transparent",
+      animations: { enabled: false },
+    },
+    colors: ["#2563eb", "#93c5fd"], // blue-600 solid, blue-300 dashed
+    stroke: {
+      width: [2, 2],
+      dashArray: [0, 6],
+      curve: "stepline",
+    },
+    xaxis: {
+      categories: props.realisticCumulative.map((d) => d.date),
+      tickAmount: 8,
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+      labels: { style: { colors: "#9ca3af", fontSize: "11px" } },
+    },
+    yaxis: {
+      labels: {
+        formatter: (val: number) => val.toFixed(1),
+        style: { colors: "#9ca3af", fontSize: "11px" },
+      },
+      title: { text: "Cumulative PT", style: { color: "#9ca3af", fontSize: "11px" } },
+    },
+    grid: { borderColor: "#f3f4f6", strokeDashArray: 4 },
+    legend: {
+      position: "top",
+      horizontalAlign: "right",
+      labels: { colors: "#6b7280" },
+      markers: { size: 6 },
+    },
+    tooltip: {
+      shared: true,
+      y: { formatter: (val: number) => `${val.toFixed(2)} PT` },
+    },
+    markers: { size: 0 },
+  }));
+
   return (
+    <>
     <div class="grid grid-cols-2 gap-4 mt-6">
       <div class="bg-gray-50 rounded-xl border border-gray-100 p-4">
         <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
@@ -156,6 +212,20 @@ const ChartsPanel: Component<Props> = (props) => {
         />
       </div>
     </div>
+
+    <div class="bg-gray-50 rounded-xl border border-gray-100 p-4 mt-4">
+      <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+        Cumulative PT over Time
+      </p>
+      <SolidApexCharts
+        type="line"
+        series={cumulativeSeries()}
+        options={cumulativeOptions()}
+        width="100%"
+        height={220}
+      />
+    </div>
+    </>
   );
 };
 
