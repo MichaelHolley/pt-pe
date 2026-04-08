@@ -1,3 +1,7 @@
+import { toISO } from "./dateUtils";
+
+const PT_HOURS = 8;
+
 export interface HoursPerDay {
   1: number;
   2: number;
@@ -26,27 +30,6 @@ export interface TeamResult {
   totalPT: number;
 }
 
-export function getWorkingDays(
-  startISO: string,
-  endISO: string,
-  blockedDates: string[],
-  globalBlockedDates: string[] = [],
-): number {
-  const blockedSet = new Set([...blockedDates, ...globalBlockedDates]);
-  let count = 0;
-  const cur = new Date(startISO + "T00:00:00");
-  const end = new Date(endISO + "T00:00:00");
-
-  while (cur <= end) {
-    const dow = cur.getDay(); // 0=Sun, 1=Mon … 6=Sat
-    const iso = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`;
-    if (dow !== 0 && dow !== 6 && !blockedSet.has(iso)) {
-      count++;
-    }
-    cur.setDate(cur.getDate() + 1);
-  }
-  return count;
-}
 
 export function calcPersonResult(
   person: Person,
@@ -64,7 +47,7 @@ export function calcPersonResult(
 
   while (cur <= end) {
     const dow = cur.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6;
-    const iso = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`;
+    const iso = toISO(cur);
     if (dow >= 1 && dow <= 5 && !blockedSet.has(iso)) {
       const hours = person.hoursPerDay[dow as keyof typeof person.hoursPerDay] ?? 0;
       if (hours > 0) {
@@ -76,7 +59,7 @@ export function calcPersonResult(
   }
 
   const netHours = grossHours * (efficiencyPercent / 100);
-  const pt = netHours / 8;
+  const pt = netHours / PT_HOURS;
   return { person, workingDays, grossHours, netHours, pt };
 }
 
@@ -101,7 +84,7 @@ export function calcDailyCumulativePT(
 
   while (cur <= end) {
     const dow = cur.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6;
-    const iso = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`;
+    const iso = toISO(cur);
     const label = cur.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
     if (dow >= 1 && dow <= 5 && !globalSet.has(iso)) {
@@ -112,7 +95,7 @@ export function calcDailyCumulativePT(
           dayHours += h;
         }
       }
-      cumulative += (dayHours * (efficiencyPercent / 100)) / 8;
+      cumulative += (dayHours * (efficiencyPercent / 100)) / PT_HOURS;
     }
 
     result.push({ date: label, cumPT: parseFloat(cumulative.toFixed(2)) });

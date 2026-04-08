@@ -1,5 +1,6 @@
 import { createSignal, For, type Component } from "solid-js";
 import type { Person } from "../utils/calculator";
+import { toISO } from "../utils/dateUtils";
 
 const WEEKDAYS = [
   { label: "Mon", value: 1 },
@@ -32,10 +33,7 @@ const PersonCard: Component<Props> = (props) => {
     while (cur <= last) {
       const dow = cur.getDay();
       if (dow >= 1 && dow <= 5) {
-        const y = cur.getFullYear();
-        const m = String(cur.getMonth() + 1).padStart(2, "0");
-        const d = String(cur.getDate()).padStart(2, "0");
-        dates.push(`${y}-${m}-${d}`);
+        dates.push(toISO(cur));
       }
       cur.setDate(cur.getDate() + 1);
     }

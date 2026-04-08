@@ -1,4 +1,5 @@
 import type { Person } from "./calculator";
+import { toISO } from "./dateUtils";
 
 export interface AppState {
   startDate: string;
@@ -14,18 +15,14 @@ const STORAGE_VERSION = 1;
 
 type StoredState = AppState & { version: number };
 
-function localISO(d: Date): string {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-}
-
 function today(): string {
-  return localISO(new Date());
+  return toISO(new Date());
 }
 
 function defaultEndDate(): string {
   const d = new Date();
   d.setDate(d.getDate() + 14);
-  return localISO(d);
+  return toISO(d);
 }
 
 const DEFAULT_HOURS_PER_DAY = { 1: 8, 2: 8, 3: 8, 4: 8, 5: 8 };

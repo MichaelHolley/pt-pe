@@ -1,4 +1,5 @@
 import { For, type Component } from "solid-js";
+import { toISO } from "../utils/dateUtils";
 
 interface Props {
   startDate: string;
@@ -30,9 +31,6 @@ function getMondayOf(dateISO: string): Date {
   return d;
 }
 
-function toISO(d: Date): string {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-}
 
 function buildWeeks(startISO: string, endISO: string): string[][] {
   const monday = getMondayOf(startISO);
