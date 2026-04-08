@@ -35,13 +35,13 @@ const DEFAULT_STATE: AppState = {
   globalBlockedDates: [],
   persons: [
     {
-      id: "1",
+      id: crypto.randomUUID(),
       name: "Person A",
       hoursPerDay: { ...DEFAULT_HOURS_PER_DAY },
       blockedDates: [],
     },
     {
-      id: "2",
+      id: crypto.randomUUID(),
       name: "Person B",
       hoursPerDay: { ...DEFAULT_HOURS_PER_DAY },
       blockedDates: [],

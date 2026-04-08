@@ -34,7 +34,7 @@ const ResultsPanel: Component<Props> = (props) => {
         <div class="flex flex-col items-center bg-gray-50 rounded-xl border border-gray-100 px-4 py-3">
           <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">Difference</span>
           <div class="flex items-baseline gap-1">
-            <span class="text-3xl font-bold text-gray-600">+{delta().toFixed(2)}</span>
+            <span class="text-3xl font-bold text-gray-600">{delta() >= 0 ? "+" : ""}{delta().toFixed(2)}</span>
             <span class="text-base font-semibold text-gray-400">PT</span>
           </div>
         </div>

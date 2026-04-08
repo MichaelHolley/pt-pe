@@ -8,7 +8,7 @@ import {
   type Component,
 } from "solid-js";
 import { createStore } from "solid-js/store";
-import { calcTeamResult, calcDailyCumulativePT } from "./utils/calculator";
+import { calcTeamResultWithCumulative } from "./utils/calculator";
 import { loadState, saveState } from "./utils/storage";
 import TimeframeSection from "./components/TimeframeSection";
 import PersonCard from "./components/PersonCard";
@@ -33,8 +33,8 @@ const App: Component = () => {
 
   createEffect(() => saveState({ ...state, persons: [...state.persons] }));
 
-  const realisticResult = createMemo(() =>
-    calcTeamResult(
+  const realisticData = createMemo(() =>
+    calcTeamResultWithCumulative(
       state.persons,
       state.startDate,
       state.endDate,
@@ -43,28 +43,8 @@ const App: Component = () => {
     ),
   );
 
-  const optimisticResult = createMemo(() =>
-    calcTeamResult(
-      state.persons,
-      state.startDate,
-      state.endDate,
-      state.optimisticEfficiency,
-      state.globalBlockedDates,
-    ),
-  );
-
-  const realisticCumulative = createMemo(() =>
-    calcDailyCumulativePT(
-      state.persons,
-      state.startDate,
-      state.endDate,
-      state.realisticEfficiency,
-      state.globalBlockedDates,
-    ),
-  );
-
-  const optimisticCumulative = createMemo(() =>
-    calcDailyCumulativePT(
+  const optimisticData = createMemo(() =>
+    calcTeamResultWithCumulative(
       state.persons,
       state.startDate,
       state.endDate,
@@ -161,17 +141,17 @@ const App: Component = () => {
 
         <div ref={resultsRef}>
           <ResultsPanel
-            realisticResult={realisticResult()}
-            optimisticResult={optimisticResult()}
-            realisticCumulative={realisticCumulative()}
-            optimisticCumulative={optimisticCumulative()}
+            realisticResult={realisticData().teamResult}
+            optimisticResult={optimisticData().teamResult}
+            realisticCumulative={realisticData().cumulative}
+            optimisticCumulative={optimisticData().cumulative}
           />
         </div>
       </div>
 
       <FloatingFooter
-        realisticPT={realisticResult().totalPT}
-        optimisticPT={optimisticResult().totalPT}
+        realisticPT={realisticData().teamResult.totalPT}
+        optimisticPT={optimisticData().teamResult.totalPT}
         visible={!resultsVisible()}
         onScrollToResults={() => resultsRef?.scrollIntoView({ behavior: "smooth" })}
       />
