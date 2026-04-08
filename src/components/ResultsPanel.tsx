@@ -14,7 +14,10 @@ const ResultsPanel: Component<Props> = (props) => {
 
   return (
     <section class="bg-white rounded-xl border border-gray-200 p-6">
-      <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">Results</h2>
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Results</h2>
+        <span class="text-xs text-gray-400">1 PT = 8 hours</span>
+      </div>
 
       <div class="grid grid-cols-3 gap-4 mb-6">
         <div class="flex flex-col items-center bg-gray-50 rounded-xl border border-gray-100 px-4 py-3">
