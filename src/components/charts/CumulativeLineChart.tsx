@@ -28,7 +28,7 @@ const CumulativeLineChart: Component<Props> = (props) => {
       background: "transparent",
       animations: { enabled: false },
     },
-    colors: ["#2563eb", "#93c5fd"],
+    colors: ["#6366f1", "#a5b4fc"], // indigo-500 solid, indigo-300 dashed
     stroke: {
       width: [2, 2],
       dashArray: [0, 6],
