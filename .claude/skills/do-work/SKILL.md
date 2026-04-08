@@ -17,7 +17,6 @@ A disciplined 5-phase workflow for implementing features or fixes from scratch t
 
 ### 2. Explore
 
-- Read all files that will be touched (use `Read`, `Grep`, `Glob`)
 - Understand existing patterns, conventions, and data flow
 - Do NOT write any code in this phase
 
@@ -35,9 +34,7 @@ A disciplined 5-phase workflow for implementing features or fixes from scratch t
 
 ### 5. Commit
 
-- Stage relevant files (`git add <files>`) — avoid `git add -A` to prevent accidentally staging secrets or unrelated changes
-- Write a concise commit message focused on _why_, not _what_ using conventional commits format
-- Commit using a heredoc to preserve formatting
+- Stage and commit changes with a conventional commit message focused on _why_
 
 ## Notes
 
