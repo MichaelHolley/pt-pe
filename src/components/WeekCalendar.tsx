@@ -31,7 +31,6 @@ function getMondayOf(dateISO: string): Date {
   return d;
 }
 
-
 function buildWeeks(startISO: string, endISO: string): string[][] {
   const monday = getMondayOf(startISO);
   const end = new Date(endISO + "T00:00:00");

@@ -46,7 +46,9 @@ const TimeframeSection: Component<Props> = (props) => {
               max="100"
               value={props.realisticEfficiency}
               onInput={(e) =>
-                props.onRealisticEfficiency(Math.min(100, Math.max(1, Number(e.currentTarget.value))))
+                props.onRealisticEfficiency(
+                  Math.min(100, Math.max(1, Number(e.currentTarget.value))),
+                )
               }
               class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -62,7 +64,9 @@ const TimeframeSection: Component<Props> = (props) => {
               max="100"
               value={props.optimisticEfficiency}
               onInput={(e) =>
-                props.onOptimisticEfficiency(Math.min(100, Math.max(1, Number(e.currentTarget.value))))
+                props.onOptimisticEfficiency(
+                  Math.min(100, Math.max(1, Number(e.currentTarget.value))),
+                )
               }
               class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />

@@ -19,7 +19,9 @@ const FloatingFooter: Component<Props> = (props) => {
         class="bg-gray-900 text-white rounded-full px-6 py-3 shadow-xl flex items-center gap-3 pointer-events-auto cursor-pointer hover:bg-gray-800 transition-colors"
       >
         <div class="flex flex-col items-center">
-          <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-500 leading-none mb-0.5">Realistic</span>
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-500 leading-none mb-0.5">
+            Realistic
+          </span>
           <div class="flex items-baseline gap-1">
             <span class="text-2xl font-bold text-blue-400">{props.realisticPT.toFixed(2)}</span>
             <span class="text-sm font-medium text-gray-400">PT</span>
@@ -27,7 +29,9 @@ const FloatingFooter: Component<Props> = (props) => {
         </div>
         <span class="text-gray-600 font-medium">–</span>
         <div class="flex flex-col items-center">
-          <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-500 leading-none mb-0.5">Optimistic</span>
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-500 leading-none mb-0.5">
+            Optimistic
+          </span>
           <div class="flex items-baseline gap-1">
             <span class="text-2xl font-bold text-blue-300">{props.optimisticPT.toFixed(2)}</span>
             <span class="text-sm font-medium text-gray-400">PT</span>

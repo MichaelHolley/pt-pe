@@ -71,7 +71,17 @@ const PersonCard: Component<Props> = (props) => {
             class="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-gray-300 hover:text-red-400 hover:bg-red-50 transition-all"
             title="Remove person"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
@@ -98,7 +108,9 @@ const PersonCard: Component<Props> = (props) => {
                     type="number"
                     min="0"
                     max="24"
-                    value={props.person.hoursPerDay[day.value as keyof typeof props.person.hoursPerDay]}
+                    value={
+                      props.person.hoursPerDay[day.value as keyof typeof props.person.hoursPerDay]
+                    }
                     onInput={(e) => {
                       const hours = Math.min(24, Math.max(0, Number(e.currentTarget.value)));
                       update({ hoursPerDay: { ...props.person.hoursPerDay, [day.value]: hours } });
@@ -154,7 +166,17 @@ const PersonCard: Component<Props> = (props) => {
                       class="hover:text-red-500 transition-colors leading-none ml-0.5"
                       aria-label={`Remove ${date}`}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
                         <path d="M18 6L6 18M6 6l12 12" />
                       </svg>
                     </button>
