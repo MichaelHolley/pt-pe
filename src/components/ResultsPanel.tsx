@@ -1,6 +1,7 @@
 import { For, type Component } from "solid-js";
 import type { TeamResult, DailyPT } from "../utils/calculator";
 import ChartsPanel from "./ChartsPanel";
+import PTStat from "./ui/PTStat";
 
 interface Props {
   realisticResult: TeamResult;
@@ -20,40 +21,21 @@ const ResultsPanel: Component<Props> = (props) => {
       </div>
 
       <div class="grid grid-cols-3 gap-4 mb-6">
-        <div class="flex flex-col items-center bg-gray-50 rounded-xl border border-gray-100 px-4 py-3">
-          <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">
-            Realistic
-          </span>
-          <div class="flex items-baseline gap-1">
-            <span class="text-3xl font-bold text-blue-600">
-              {props.realisticResult.totalPT.toFixed(2)}
-            </span>
-            <span class="text-base font-semibold text-gray-400">PT</span>
-          </div>
-        </div>
-        <div class="flex flex-col items-center bg-gray-50 rounded-xl border border-gray-100 px-4 py-3">
-          <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">
-            Optimistic
-          </span>
-          <div class="flex items-baseline gap-1">
-            <span class="text-3xl font-bold text-blue-400">
-              {props.optimisticResult.totalPT.toFixed(2)}
-            </span>
-            <span class="text-base font-semibold text-gray-400">PT</span>
-          </div>
-        </div>
-        <div class="flex flex-col items-center bg-gray-50 rounded-xl border border-gray-100 px-4 py-3">
-          <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">
-            Difference
-          </span>
-          <div class="flex items-baseline gap-1">
-            <span class="text-3xl font-bold text-gray-600">
-              {delta() >= 0 ? "+" : ""}
-              {delta().toFixed(2)}
-            </span>
-            <span class="text-base font-semibold text-gray-400">PT</span>
-          </div>
-        </div>
+        <PTStat
+          label="Realistic"
+          value={props.realisticResult.totalPT.toFixed(2)}
+          variant="realistic"
+        />
+        <PTStat
+          label="Optimistic"
+          value={props.optimisticResult.totalPT.toFixed(2)}
+          variant="optimistic"
+        />
+        <PTStat
+          label="Difference"
+          value={`${delta() >= 0 ? "+" : ""}${delta().toFixed(2)}`}
+          variant="neutral"
+        />
       </div>
 
       <div class="flex flex-col gap-3">
