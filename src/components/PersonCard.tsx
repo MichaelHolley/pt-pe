@@ -4,6 +4,7 @@ import { toISO } from "../utils/dateUtils";
 import Avatar from "./ui/Avatar";
 import Badge from "./ui/Badge";
 import Button from "./ui/Button";
+import DayHoursInput from "./ui/DayHoursInput";
 
 const WEEKDAYS = [
   { label: "Mon", value: 1 },
@@ -102,22 +103,15 @@ const PersonCard: Component<Props> = (props) => {
           <div class="flex gap-2">
             <For each={WEEKDAYS}>
               {(day) => (
-                <div class="flex-1 flex flex-col items-center gap-1.5 bg-gray-50 rounded-xl px-1 py-2.5 border border-gray-100">
-                  <span class="text-[11px] font-medium text-gray-400">{day.label}</span>
-                  <input
-                    type="number"
-                    min="0"
-                    max="24"
-                    value={
-                      props.person.hoursPerDay[day.value as keyof typeof props.person.hoursPerDay]
-                    }
-                    onInput={(e) => {
-                      const hours = Math.min(24, Math.max(0, Number(e.currentTarget.value)));
-                      update({ hoursPerDay: { ...props.person.hoursPerDay, [day.value]: hours } });
-                    }}
-                    class="w-full text-center text-sm font-semibold text-gray-700 bg-transparent border-0 focus:outline-none focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  />
-                </div>
+                <DayHoursInput
+                  label={day.label}
+                  value={
+                    props.person.hoursPerDay[day.value as keyof typeof props.person.hoursPerDay]
+                  }
+                  onInput={(hours) =>
+                    update({ hoursPerDay: { ...props.person.hoursPerDay, [day.value]: hours } })
+                  }
+                />
               )}
             </For>
           </div>
