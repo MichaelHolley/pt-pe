@@ -154,7 +154,7 @@ const PersonCard: Component<Props> = (props) => {
             <div class="flex flex-wrap gap-1.5">
               <For each={props.person.blockedDates}>
                 {(date) => (
-                  <span class="inline-flex items-center gap-1 bg-amber-50 border border-amber-200 text-amber-700 text-xs px-2.5 py-1 rounded-full font-medium">
+                  <Badge color="amber" class="px-2.5 py-1">
                     {date}
                     <Button
                       variant="ghost"
@@ -176,7 +176,7 @@ const PersonCard: Component<Props> = (props) => {
                         <path d="M18 6L6 18M6 6l12 12" />
                       </svg>
                     </Button>
-                  </span>
+                  </Badge>
                 )}
               </For>
             </div>
