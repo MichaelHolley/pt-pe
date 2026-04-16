@@ -1,6 +1,9 @@
 import { createSignal, For, type Component } from "solid-js";
 import type { Person } from "../utils/calculator";
 import { toISO } from "../utils/dateUtils";
+import Avatar from "./ui/Avatar";
+import Badge from "./ui/Badge";
+import Button from "./ui/Button";
 
 const WEEKDAYS = [
   { label: "Mon", value: 1 },
@@ -53,11 +56,7 @@ const PersonCard: Component<Props> = (props) => {
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
       {/* Card header */}
       <div class="flex items-center gap-3 px-5 pt-5 pb-4 border-b border-gray-100">
-        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-          <span class="text-sm font-bold text-blue-500 select-none uppercase">
-            {props.person.name?.[0] || "?"}
-          </span>
-        </div>
+        <Avatar name={props.person.name} />
         <input
           type="text"
           value={props.person.name}
@@ -66,10 +65,11 @@ const PersonCard: Component<Props> = (props) => {
           class="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm font-semibold text-gray-800 placeholder-gray-300 focus:outline-none focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
         />
         {props.canRemove && (
-          <button
+          <Button
+            variant="danger"
             onClick={props.onRemove}
-            class="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-gray-300 hover:text-red-400 hover:bg-red-50 transition-all"
             title="Remove person"
+            class="flex-shrink-0 w-7 h-7"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@ const PersonCard: Component<Props> = (props) => {
             >
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
-          </button>
+          </Button>
         )}
       </div>
 
@@ -95,9 +95,9 @@ const PersonCard: Component<Props> = (props) => {
             <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
               Hours per day
             </span>
-            <span class="text-xs font-semibold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">
+            <Badge>
               {Object.values(props.person.hoursPerDay).reduce((a, b) => a + b, 0)}h / week
-            </span>
+            </Badge>
           </div>
           <div class="flex gap-2">
             <For each={WEEKDAYS}>
@@ -148,12 +148,7 @@ const PersonCard: Component<Props> = (props) => {
                 class="border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition-all w-full"
               />
             </label>
-            <button
-              onClick={addBlockedRange}
-              class="px-3.5 py-1.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
-            >
-              Block
-            </button>
+            <Button onClick={addBlockedRange}>Block</Button>
           </div>
           {props.person.blockedDates.length > 0 && (
             <div class="flex flex-wrap gap-1.5">
@@ -161,10 +156,11 @@ const PersonCard: Component<Props> = (props) => {
                 {(date) => (
                   <span class="inline-flex items-center gap-1 bg-amber-50 border border-amber-200 text-amber-700 text-xs px-2.5 py-1 rounded-full font-medium">
                     {date}
-                    <button
+                    <Button
+                      variant="ghost"
                       onClick={() => removeBlockedDate(date)}
-                      class="hover:text-red-500 transition-colors leading-none ml-0.5"
-                      aria-label={`Remove ${date}`}
+                      title={`Remove ${date}`}
+                      class="hover:!text-red-500 ml-0.5 w-4 h-4"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +175,7 @@ const PersonCard: Component<Props> = (props) => {
                       >
                         <path d="M18 6L6 18M6 6l12 12" />
                       </svg>
-                    </button>
+                    </Button>
                   </span>
                 )}
               </For>
