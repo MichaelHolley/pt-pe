@@ -2,10 +2,10 @@ import { createMemo, type Component } from "solid-js";
 import { SolidApexCharts } from "solid-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import type { TeamResult } from "../../utils/calculator";
+import { getChartColors } from "../../utils/chartColors";
 
 interface Props {
   realisticResult: TeamResult;
-  personColors: string[];
 }
 
 const DonutChart: Component<Props> = (props) => {
@@ -25,7 +25,7 @@ const DonutChart: Component<Props> = (props) => {
       background: "transparent",
     },
     labels: names(),
-    colors: props.personColors,
+    colors: getChartColors(props.realisticResult.persons.length),
     plotOptions: {
       pie: {
         donut: {

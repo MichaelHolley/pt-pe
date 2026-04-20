@@ -2,11 +2,11 @@ import { createMemo, type Component } from "solid-js";
 import { SolidApexCharts } from "solid-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import type { TeamResult } from "../../utils/calculator";
+import { getChartColors } from "../../utils/chartColors";
 
 interface Props {
   realisticResult: TeamResult;
   optimisticResult: TeamResult;
-  personColors: string[];
 }
 
 const BarChart: Component<Props> = (props) => {
@@ -27,7 +27,7 @@ const BarChart: Component<Props> = (props) => {
       fontFamily: "inherit",
       background: "transparent",
     },
-    colors: props.personColors,
+    colors: getChartColors(props.realisticResult.persons.length),
     plotOptions: {
       bar: {
         columnWidth: "60%",
