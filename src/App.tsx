@@ -1,35 +1,14 @@
-import {
-  createEffect,
-  createMemo,
-  createSignal,
-  onMount,
-  onCleanup,
-  For,
-  type Component,
-} from "solid-js";
+import { createEffect, createMemo, For, type Component } from "solid-js";
 import { createStore } from "solid-js/store";
 import { calcTeamResultWithCumulative } from "./utils/calculator";
 import { loadState, saveState } from "./utils/storage";
 import TimeframeSection from "./components/TimeframeSection";
 import PersonCard from "./components/PersonCard";
 import ResultsPanel from "./components/ResultsPanel";
-import FloatingFooter from "./components/FloatingFooter";
 import type { Person } from "./utils/calculator";
 
 const App: Component = () => {
   const [state, setState] = createStore(loadState());
-  const [resultsVisible, setResultsVisible] = createSignal(true);
-  // eslint-disable-next-line no-unassigned-vars
-  let resultsRef: HTMLDivElement | undefined;
-
-  onMount(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setResultsVisible(entry.isIntersecting),
-      { threshold: 0 },
-    );
-    if (resultsRef) observer.observe(resultsRef);
-    onCleanup(() => observer.disconnect());
-  });
 
   createEffect(() => saveState({ ...state, persons: [...state.persons] }));
 
@@ -79,8 +58,9 @@ const App: Component = () => {
   };
 
   return (
-    <div class="min-h-screen bg-gray-50">
-      <div class="max-w-2xl mx-auto px-4 py-10 flex flex-col gap-6">
+    <div class="flex flex-col md:flex-row md:h-screen bg-gray-50">
+      {/* Left panel */}
+      <div class="md:w-[460px] md:shrink-0 md:h-screen md:overflow-y-auto border-b md:border-b-0 md:border-r border-gray-200 px-6 py-8 flex flex-col gap-6">
         <header class="flex items-start justify-between">
           <div>
             <h1 class="text-2xl font-bold text-gray-900">PT Planner</h1>
@@ -138,23 +118,17 @@ const App: Component = () => {
             + Add Person
           </button>
         </section>
-
-        <div ref={resultsRef}>
-          <ResultsPanel
-            realisticResult={realisticData().teamResult}
-            optimisticResult={optimisticData().teamResult}
-            realisticCumulative={realisticData().cumulative}
-            optimisticCumulative={optimisticData().cumulative}
-          />
-        </div>
       </div>
 
-      <FloatingFooter
-        realisticPT={realisticData().teamResult.totalPT}
-        optimisticPT={optimisticData().teamResult.totalPT}
-        visible={!resultsVisible()}
-        onScrollToResults={() => resultsRef?.scrollIntoView({ behavior: "smooth" })}
-      />
+      {/* Right panel */}
+      <div class="flex-1 md:h-screen md:overflow-y-auto px-6 py-8">
+        <ResultsPanel
+          realisticResult={realisticData().teamResult}
+          optimisticResult={optimisticData().teamResult}
+          realisticCumulative={realisticData().cumulative}
+          optimisticCumulative={optimisticData().cumulative}
+        />
+      </div>
     </div>
   );
 };
