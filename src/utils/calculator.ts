@@ -28,6 +28,7 @@ export interface PersonResult {
 export interface TeamResult {
   persons: PersonResult[];
   totalPT: number;
+  calendarWorkingDays: number;
 }
 
 export interface DailyPT {
@@ -64,6 +65,7 @@ export function calcTeamResultWithCumulative(
 
   const cumulative: DailyPT[] = [];
   let runningCumPT = 0;
+  let calendarWorkingDays = 0;
 
   const cur = new Date(startISO + "T00:00:00");
   const end = new Date(endISO + "T00:00:00");
@@ -72,6 +74,8 @@ export function calcTeamResultWithCumulative(
     const dow = cur.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6;
     const iso = toISO(cur);
     const label = cur.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+
+    if (dow >= 1 && dow <= 5) calendarWorkingDays++;
 
     if (dow >= 1 && dow <= 5 && !globalSet.has(iso)) {
       let dayHours = 0;
@@ -106,7 +110,7 @@ export function calcTeamResultWithCumulative(
   const totalPT = personResults.reduce((sum, r) => sum + r.pt, 0);
 
   return {
-    teamResult: { persons: personResults, totalPT },
+    teamResult: { persons: personResults, totalPT, calendarWorkingDays },
     cumulative,
   };
 }

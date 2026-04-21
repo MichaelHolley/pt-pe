@@ -42,26 +42,45 @@ const ResultsPanel: Component<Props> = (props) => {
         <For each={props.realisticResult.persons}>
           {(r, i) => {
             const opt = () => props.optimisticResult.persons[i()];
+            const base = () => props.realisticResult.calendarWorkingDays;
+            const pct = (v: number) => (base() > 0 ? (v / base()) * 100 : 0);
             return (
-              <div class="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-100">
-                <div class="flex flex-col">
-                  <span class="text-sm font-semibold text-gray-800">
-                    {r.person.name || "Unnamed"}
-                  </span>
-                  <span class="text-xs text-gray-500">
-                    {r.workingDays} working days · {r.grossHours.toFixed(1)}h gross
-                  </span>
+              <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-100 flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                  <div class="flex flex-col">
+                    <span class="text-sm font-semibold text-gray-800">
+                      {r.person.name || "Unnamed"}
+                    </span>
+                    <span class="text-xs text-gray-500">
+                      {r.workingDays} / {base()} working days · {r.grossHours.toFixed(1)}h gross
+                    </span>
+                  </div>
+                  <div class="flex items-baseline gap-1.5">
+                    <span class="text-base font-bold text-blue-600">{r.pt.toFixed(2)}</span>
+                    <span class="text-xs text-gray-400">–</span>
+                    <span class="text-base font-bold text-blue-400">{opt()?.pt.toFixed(2)}</span>
+                    <span class="text-xs text-gray-400">PT</span>
+                  </div>
                 </div>
-                <div class="flex items-baseline gap-3">
-                  <div class="flex items-baseline gap-1">
-                    <span class="text-lg font-bold text-blue-600">{r.pt.toFixed(2)}</span>
-                    <span class="text-xs text-gray-400">PT</span>
-                  </div>
-                  <span class="text-gray-300">–</span>
-                  <div class="flex items-baseline gap-1">
-                    <span class="text-lg font-bold text-blue-400">{opt()?.pt.toFixed(2)}</span>
-                    <span class="text-xs text-gray-400">PT</span>
-                  </div>
+                <div
+                  class="relative h-2 bg-gray-200 rounded-full overflow-hidden"
+                  title={`Timeframe: ${base()} total working days (Mon–Fri)`}
+                >
+                  <div
+                    class="absolute inset-y-0 left-0 bg-gray-400 rounded-full"
+                    style={{ width: `${pct(r.workingDays)}%` }}
+                    title={`Actual working days: ${r.workingDays} (after blocked dates)`}
+                  />
+                  <div
+                    class="absolute inset-y-0 left-0 bg-blue-300 rounded-full"
+                    style={{ width: `${pct(opt()?.pt ?? 0)}%` }}
+                    title={`Optimistic: ${(opt()?.pt ?? 0).toFixed(2)} PT`}
+                  />
+                  <div
+                    class="absolute inset-y-0 left-0 bg-blue-600 rounded-full"
+                    style={{ width: `${pct(r.pt)}%` }}
+                    title={`Realistic: ${r.pt.toFixed(2)} PT`}
+                  />
                 </div>
               </div>
             );
