@@ -60,7 +60,7 @@ const App: Component = () => {
   return (
     <div class="flex flex-col md:flex-row md:h-screen bg-gray-50">
       {/* Left panel */}
-      <div class="md:w-[460px] md:shrink-0 md:h-screen md:overflow-y-auto border-b md:border-b-0 md:border-r border-gray-200 px-6 py-8 flex flex-col gap-6">
+      <div class="md:w-[512px] md:shrink-0 md:h-screen md:overflow-y-auto border-b md:border-b-0 md:border-r border-gray-200 px-6 py-8 flex flex-col gap-6">
         <header class="flex items-start justify-between">
           <div>
             <h1 class="text-2xl font-bold text-gray-900">PT Planner</h1>
