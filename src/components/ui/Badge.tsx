@@ -9,7 +9,7 @@ interface Props {
 }
 
 const COLOR_CLASSES: Record<Color, string> = {
-  blue: "text-blue-500 bg-blue-50",
+  blue: "text-primary bg-secondary/30",
   amber: "border border-amber-200 text-amber-700 bg-amber-50",
 };
 

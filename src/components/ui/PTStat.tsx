@@ -9,8 +9,8 @@ interface Props {
 }
 
 const VALUE_CLASSES: Record<Variant, string> = {
-  realistic: "text-blue-600",
-  optimistic: "text-blue-400",
+  realistic: "text-primary",
+  optimistic: "text-secondary",
   neutral: "text-gray-600",
 };
 

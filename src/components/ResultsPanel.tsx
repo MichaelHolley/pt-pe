@@ -56,9 +56,9 @@ const ResultsPanel: Component<Props> = (props) => {
                     </span>
                   </div>
                   <div class="flex items-baseline gap-1.5">
-                    <span class="text-base font-bold text-blue-600">{r.pt.toFixed(2)}</span>
+                    <span class="text-base font-bold text-primary">{r.pt.toFixed(2)}</span>
                     <span class="text-xs text-gray-400">–</span>
-                    <span class="text-base font-bold text-blue-400">{opt()?.pt.toFixed(2)}</span>
+                    <span class="text-base font-bold text-secondary">{opt()?.pt.toFixed(2)}</span>
                     <span class="text-xs text-gray-400">PT</span>
                   </div>
                 </div>
@@ -72,12 +72,12 @@ const ResultsPanel: Component<Props> = (props) => {
                     title={`Actual working days: ${r.workingDays} (after blocked dates)`}
                   />
                   <div
-                    class="absolute inset-y-0 left-0 bg-blue-300 rounded-full"
+                    class="absolute inset-y-0 left-0 bg-secondary rounded-full"
                     style={{ width: `${pct(opt()?.pt ?? 0)}%` }}
                     title={`Optimistic: ${(opt()?.pt ?? 0).toFixed(2)} PT`}
                   />
                   <div
-                    class="absolute inset-y-0 left-0 bg-blue-600 rounded-full"
+                    class="absolute inset-y-0 left-0 bg-primary rounded-full"
                     style={{ width: `${pct(r.pt)}%` }}
                     title={`Realistic: ${r.pt.toFixed(2)} PT`}
                   />

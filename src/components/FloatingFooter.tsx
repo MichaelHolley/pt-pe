@@ -23,7 +23,7 @@ const FloatingFooter: Component<Props> = (props) => {
             Realistic
           </span>
           <div class="flex items-baseline gap-1">
-            <span class="text-2xl font-bold text-blue-400">{props.realisticPT.toFixed(2)}</span>
+            <span class="text-2xl font-bold text-primary">{props.realisticPT.toFixed(2)}</span>
             <span class="text-sm font-medium text-gray-400">PT</span>
           </div>
         </div>
@@ -33,7 +33,7 @@ const FloatingFooter: Component<Props> = (props) => {
             Optimistic
           </span>
           <div class="flex items-baseline gap-1">
-            <span class="text-2xl font-bold text-blue-300">{props.optimisticPT.toFixed(2)}</span>
+            <span class="text-2xl font-bold text-secondary">{props.optimisticPT.toFixed(2)}</span>
             <span class="text-sm font-medium text-gray-400">PT</span>
           </div>
         </div>
