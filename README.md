@@ -15,6 +15,10 @@ One PT = 8 hours of work.
 - **Floating summary** — a fixed footer displays the total PT whenever the results panel is scrolled out of view
 - **Persistence** — all configuration is saved to `localStorage` and restored on page reload; no backend required
 
+### Screenshot
+
+<img width="1748" height="1314" alt="image" src="https://github.com/user-attachments/assets/48c3d9af-5903-473c-9736-023ed478f43e" />
+
 ## Calculation
 
 For each team member:
