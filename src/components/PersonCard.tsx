@@ -5,6 +5,7 @@ import Avatar from "./ui/Avatar";
 import Badge from "./ui/Badge";
 import Button from "./ui/Button";
 import DayHoursInput from "./ui/DayHoursInput";
+import OutOfRangeBadge from "./ui/OutOfRangeBadge";
 
 const WEEKDAYS = [
   { label: "Mon", value: 1 },
@@ -16,6 +17,8 @@ const WEEKDAYS = [
 
 interface Props {
   person: Person;
+  startDate: string;
+  endDate: string;
   onUpdate: (updated: Person) => void;
   onRemove: () => void;
   canRemove: boolean;
@@ -119,9 +122,17 @@ const PersonCard: Component<Props> = (props) => {
 
         {/* Blocked dates */}
         <div class="flex flex-col gap-3">
-          <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
-            Blocked dates
-          </span>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
+              Blocked dates
+            </span>
+            <OutOfRangeBadge
+              count={
+                props.person.blockedDates.filter((d) => d < props.startDate || d > props.endDate)
+                  .length
+              }
+            />
+          </div>
           <div class="flex items-end gap-2">
             <label class="flex flex-col gap-1 flex-1">
               <span class="text-[11px] font-medium text-gray-400">From</span>

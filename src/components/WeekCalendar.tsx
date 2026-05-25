@@ -1,4 +1,5 @@
 import { For, type Component } from "solid-js";
+import OutOfRangeBadge from "./ui/OutOfRangeBadge";
 import { toISO } from "../utils/dateUtils";
 
 interface Props {
@@ -70,6 +71,13 @@ const WeekCalendar: Component<Props> = (props) => {
           <span class="text-xs text-red-500">
             {props.globalBlockedDates.length} blocked day
             {props.globalBlockedDates.length !== 1 ? "s" : ""}
+            <OutOfRangeBadge
+              class="ml-2"
+              count={
+                props.globalBlockedDates.filter((d) => d < props.startDate || d > props.endDate)
+                  .length
+              }
+            />
           </span>
         )}
       </div>

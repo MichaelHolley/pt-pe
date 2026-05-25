@@ -105,6 +105,8 @@ const App: Component = () => {
             {(person) => (
               <PersonCard
                 person={person}
+                startDate={state.startDate}
+                endDate={state.endDate}
                 onUpdate={(updated) => updatePerson(person.id, updated)}
                 onRemove={() => removePerson(person.id)}
                 canRemove={state.persons.length > 1}
