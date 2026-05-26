@@ -1,15 +1,12 @@
 import { createEffect, createMemo, For, type Component } from "solid-js";
-import { createStore } from "solid-js/store";
 import { calcTeamResultWithCumulative } from "./utils/calculator";
-import { loadState, saveState } from "./utils/storage";
+import { saveState } from "./utils/storage";
+import { state, addPerson } from "./store";
 import TimeframeSection from "./components/TimeframeSection";
 import PersonCard from "./components/PersonCard";
 import ResultsPanel from "./components/ResultsPanel";
-import type { Person } from "./utils/calculator";
 
 const App: Component = () => {
-  const [state, setState] = createStore(loadState());
-
   createEffect(() => saveState({ ...state, persons: [...state.persons] }));
 
   const realisticData = createMemo(() =>
@@ -31,31 +28,6 @@ const App: Component = () => {
       state.globalBlockedDates,
     ),
   );
-
-  const toggleGlobalBlockedDate = (date: string) => {
-    setState("globalBlockedDates", (dates) =>
-      dates.includes(date) ? dates.filter((d) => d !== date) : [...dates, date].sort(),
-    );
-  };
-
-  const addPerson = () => {
-    const newPerson: Person = {
-      id: crypto.randomUUID(),
-      name: `Person ${String.fromCharCode(65 + state.persons.length)}`,
-      hoursPerDay: { 1: 8, 2: 8, 3: 8, 4: 8, 5: 8 },
-      blockedDates: [],
-    };
-    setState("persons", (p) => [...p, newPerson]);
-  };
-
-  const updatePerson = (id: string, updated: Person) => {
-    const idx = state.persons.findIndex((p) => p.id === id);
-    if (idx !== -1) setState("persons", idx, updated);
-  };
-
-  const removePerson = (id: string) => {
-    setState("persons", (p) => p.filter((person) => person.id !== id));
-  };
 
   return (
     <div class="flex flex-col md:flex-row md:h-screen bg-gray-50">
@@ -86,33 +58,11 @@ const App: Component = () => {
           </a>
         </header>
 
-        <TimeframeSection
-          startDate={state.startDate}
-          endDate={state.endDate}
-          realisticEfficiency={state.realisticEfficiency}
-          optimisticEfficiency={state.optimisticEfficiency}
-          globalBlockedDates={state.globalBlockedDates}
-          onStartDate={(v) => setState("startDate", v)}
-          onEndDate={(v) => setState("endDate", v)}
-          onRealisticEfficiency={(v) => setState("realisticEfficiency", v)}
-          onOptimisticEfficiency={(v) => setState("optimisticEfficiency", v)}
-          onToggleBlockedDate={toggleGlobalBlockedDate}
-        />
+        <TimeframeSection />
 
         <section class="flex flex-col gap-3">
           <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Team</h2>
-          <For each={state.persons}>
-            {(person) => (
-              <PersonCard
-                person={person}
-                startDate={state.startDate}
-                endDate={state.endDate}
-                onUpdate={(updated) => updatePerson(person.id, updated)}
-                onRemove={() => removePerson(person.id)}
-                canRemove={state.persons.length > 1}
-              />
-            )}
-          </For>
+          <For each={state.persons}>{(person) => <PersonCard person={person} />}</For>
           <button
             onClick={addPerson}
             class="w-full py-3 rounded-xl border-2 border-dashed border-gray-200 text-gray-400 hover:border-blue-300 hover:text-blue-500 hover:bg-blue-50/40 transition-all text-sm font-medium"

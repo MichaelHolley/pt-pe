@@ -1,20 +1,15 @@
 import type { Component } from "solid-js";
+import {
+  state,
+  setStartDate,
+  setEndDate,
+  setRealisticEfficiency,
+  setOptimisticEfficiency,
+  toggleGlobalBlockedDate,
+} from "../store";
 import WeekCalendar from "./WeekCalendar";
 
-interface Props {
-  startDate: string;
-  endDate: string;
-  realisticEfficiency: number;
-  optimisticEfficiency: number;
-  globalBlockedDates: string[];
-  onStartDate: (v: string) => void;
-  onEndDate: (v: string) => void;
-  onRealisticEfficiency: (v: number) => void;
-  onOptimisticEfficiency: (v: number) => void;
-  onToggleBlockedDate: (date: string) => void;
-}
-
-const TimeframeSection: Component<Props> = (props) => {
+const TimeframeSection: Component = () => {
   return (
     <section class="bg-white rounded-xl border border-gray-200 p-6">
       <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">Timeframe</h2>
@@ -23,8 +18,8 @@ const TimeframeSection: Component<Props> = (props) => {
           <span class="text-sm font-medium text-gray-700">Start date</span>
           <input
             type="date"
-            value={props.startDate}
-            onInput={(e) => props.onStartDate(e.currentTarget.value)}
+            value={state.startDate}
+            onInput={(e) => setStartDate(e.currentTarget.value)}
             class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
@@ -32,8 +27,8 @@ const TimeframeSection: Component<Props> = (props) => {
           <span class="text-sm font-medium text-gray-700">End date</span>
           <input
             type="date"
-            value={props.endDate}
-            onInput={(e) => props.onEndDate(e.currentTarget.value)}
+            value={state.endDate}
+            onInput={(e) => setEndDate(e.currentTarget.value)}
             class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
@@ -44,11 +39,9 @@ const TimeframeSection: Component<Props> = (props) => {
               type="number"
               min="1"
               max="100"
-              value={props.realisticEfficiency}
+              value={state.realisticEfficiency}
               onInput={(e) =>
-                props.onRealisticEfficiency(
-                  Math.min(100, Math.max(1, Number(e.currentTarget.value))),
-                )
+                setRealisticEfficiency(Math.min(100, Math.max(1, Number(e.currentTarget.value))))
               }
               class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -62,11 +55,9 @@ const TimeframeSection: Component<Props> = (props) => {
               type="number"
               min="1"
               max="100"
-              value={props.optimisticEfficiency}
+              value={state.optimisticEfficiency}
               onInput={(e) =>
-                props.onOptimisticEfficiency(
-                  Math.min(100, Math.max(1, Number(e.currentTarget.value))),
-                )
+                setOptimisticEfficiency(Math.min(100, Math.max(1, Number(e.currentTarget.value))))
               }
               class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -75,10 +66,10 @@ const TimeframeSection: Component<Props> = (props) => {
         </label>
       </div>
       <WeekCalendar
-        startDate={props.startDate}
-        endDate={props.endDate}
-        globalBlockedDates={props.globalBlockedDates}
-        onToggle={props.onToggleBlockedDate}
+        startDate={state.startDate}
+        endDate={state.endDate}
+        globalBlockedDates={state.globalBlockedDates}
+        onToggle={toggleGlobalBlockedDate}
       />
     </section>
   );

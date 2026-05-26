@@ -1,6 +1,7 @@
 import { createSignal, For, type Component } from "solid-js";
 import type { Person } from "../utils/calculator";
 import { toISO } from "../utils/dateUtils";
+import { state, updatePerson, removePerson } from "../store";
 import Avatar from "./ui/Avatar";
 import Badge from "./ui/Badge";
 import Button from "./ui/Button";
@@ -17,18 +18,14 @@ const WEEKDAYS = [
 
 interface Props {
   person: Person;
-  startDate: string;
-  endDate: string;
-  onUpdate: (updated: Person) => void;
-  onRemove: () => void;
-  canRemove: boolean;
 }
 
 const PersonCard: Component<Props> = (props) => {
   const [rangeStart, setRangeStart] = createSignal("");
   const [rangeEnd, setRangeEnd] = createSignal("");
 
-  const update = (patch: Partial<Person>) => props.onUpdate({ ...props.person, ...patch });
+  const update = (patch: Partial<Person>) =>
+    updatePerson(props.person.id, { ...props.person, ...patch });
 
   const addBlockedRange = () => {
     const from = rangeStart();
@@ -68,10 +65,10 @@ const PersonCard: Component<Props> = (props) => {
           onInput={(e) => update({ name: e.currentTarget.value })}
           class="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm font-semibold text-gray-800 placeholder-gray-300 focus:outline-none focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
         />
-        {props.canRemove && (
+        {state.persons.length > 1 && (
           <Button
             variant="danger"
-            onClick={props.onRemove}
+            onClick={() => removePerson(props.person.id)}
             title="Remove person"
             class="flex-shrink-0 w-7 h-7"
           >
@@ -128,7 +125,7 @@ const PersonCard: Component<Props> = (props) => {
             </span>
             <OutOfRangeBadge
               count={
-                props.person.blockedDates.filter((d) => d < props.startDate || d > props.endDate)
+                props.person.blockedDates.filter((d) => d < state.startDate || d > state.endDate)
                   .length
               }
             />
