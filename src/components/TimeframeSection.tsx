@@ -4,11 +4,13 @@ import WeekCalendar from "./WeekCalendar";
 interface Props {
   startDate: string;
   endDate: string;
+  conservativeEfficiency: number;
   realisticEfficiency: number;
   optimisticEfficiency: number;
   globalBlockedDates: string[];
   onStartDate: (v: string) => void;
   onEndDate: (v: string) => void;
+  onConservativeEfficiency: (v: number) => void;
   onRealisticEfficiency: (v: number) => void;
   onOptimisticEfficiency: (v: number) => void;
   onToggleBlockedDate: (date: string) => void;
@@ -36,6 +38,24 @@ const TimeframeSection: Component<Props> = (props) => {
             onInput={(e) => props.onEndDate(e.currentTarget.value)}
             class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+        </label>
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-medium text-conservative">Conservative %</span>
+          <div class="flex items-center gap-2">
+            <input
+              type="number"
+              min="1"
+              max="100"
+              value={props.conservativeEfficiency}
+              onInput={(e) =>
+                props.onConservativeEfficiency(
+                  Math.min(100, Math.max(1, Number(e.currentTarget.value))),
+                )
+              }
+              class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-20 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            />
+            <span class="text-sm text-gray-500">%</span>
+          </div>
         </label>
         <label class="flex flex-col gap-1">
           <span class="text-sm font-medium text-gray-700">Realistic %</span>

@@ -12,6 +12,16 @@ const App: Component = () => {
 
   createEffect(() => saveState({ ...state, persons: [...state.persons] }));
 
+  const conservativeData = createMemo(() =>
+    calcTeamResultWithCumulative(
+      state.persons,
+      state.startDate,
+      state.endDate,
+      state.conservativeEfficiency,
+      state.globalBlockedDates,
+    ),
+  );
+
   const realisticData = createMemo(() =>
     calcTeamResultWithCumulative(
       state.persons,
@@ -89,11 +99,13 @@ const App: Component = () => {
         <TimeframeSection
           startDate={state.startDate}
           endDate={state.endDate}
+          conservativeEfficiency={state.conservativeEfficiency}
           realisticEfficiency={state.realisticEfficiency}
           optimisticEfficiency={state.optimisticEfficiency}
           globalBlockedDates={state.globalBlockedDates}
           onStartDate={(v) => setState("startDate", v)}
           onEndDate={(v) => setState("endDate", v)}
+          onConservativeEfficiency={(v) => setState("conservativeEfficiency", v)}
           onRealisticEfficiency={(v) => setState("realisticEfficiency", v)}
           onOptimisticEfficiency={(v) => setState("optimisticEfficiency", v)}
           onToggleBlockedDate={toggleGlobalBlockedDate}
@@ -123,6 +135,7 @@ const App: Component = () => {
       {/* Right panel */}
       <div class="flex-1 md:h-screen md:overflow-y-auto px-6 py-8">
         <ResultsPanel
+          conservativeResult={conservativeData().teamResult}
           realisticResult={realisticData().teamResult}
           optimisticResult={optimisticData().teamResult}
           realisticCumulative={realisticData().cumulative}

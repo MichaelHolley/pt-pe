@@ -1,6 +1,6 @@
 import type { Component } from "solid-js";
 
-type Variant = "realistic" | "optimistic" | "neutral";
+type Variant = "conservative" | "realistic" | "optimistic" | "neutral";
 
 interface Props {
   label: string;
@@ -9,6 +9,7 @@ interface Props {
 }
 
 const VALUE_CLASSES: Record<Variant, string> = {
+  conservative: "text-conservative",
   realistic: "text-primary",
   optimistic: "text-secondary",
   neutral: "text-gray-600",

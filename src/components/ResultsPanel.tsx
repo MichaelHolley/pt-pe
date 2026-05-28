@@ -4,6 +4,7 @@ import ChartsPanel from "./ChartsPanel";
 import PTStat from "./ui/PTStat";
 
 interface Props {
+  conservativeResult: TeamResult;
   realisticResult: TeamResult;
   optimisticResult: TeamResult;
   realisticCumulative: DailyPT[];
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const ResultsPanel: Component<Props> = (props) => {
-  const delta = () => props.optimisticResult.totalPT - props.realisticResult.totalPT;
+  const range = () => props.optimisticResult.totalPT - props.conservativeResult.totalPT;
 
   return (
     <section class="bg-white rounded-xl border border-gray-200 p-6">
@@ -20,7 +21,12 @@ const ResultsPanel: Component<Props> = (props) => {
         <span class="text-xs text-gray-400">1 PT = 8 hours</span>
       </div>
 
-      <div class="grid grid-cols-3 gap-4 mb-6">
+      <div class="grid grid-cols-4 gap-4 mb-6">
+        <PTStat
+          label="Conservative"
+          value={props.conservativeResult.totalPT.toFixed(2)}
+          variant="conservative"
+        />
         <PTStat
           label="Realistic"
           value={props.realisticResult.totalPT.toFixed(2)}
@@ -31,11 +37,7 @@ const ResultsPanel: Component<Props> = (props) => {
           value={props.optimisticResult.totalPT.toFixed(2)}
           variant="optimistic"
         />
-        <PTStat
-          label="Difference"
-          value={`${delta() >= 0 ? "+" : ""}${delta().toFixed(2)}`}
-          variant="neutral"
-        />
+        <PTStat label="Range" value={`+${range().toFixed(2)}`} variant="neutral" />
       </div>
 
       <div class="flex flex-col gap-3">
