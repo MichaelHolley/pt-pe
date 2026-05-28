@@ -44,6 +44,7 @@ const ResultsPanel: Component<Props> = (props) => {
         <For each={props.realisticResult.persons}>
           {(r, i) => {
             const opt = () => props.optimisticResult.persons[i()];
+            const con = () => props.conservativeResult.persons[i()];
             const base = () => props.realisticResult.calendarWorkingDays;
             const pct = (v: number) => (base() > 0 ? (v / base()) * 100 : 0);
             return (
@@ -58,6 +59,10 @@ const ResultsPanel: Component<Props> = (props) => {
                     </span>
                   </div>
                   <div class="flex items-baseline gap-1.5">
+                    <span class="text-base font-bold text-conservative">
+                      {con()?.pt.toFixed(2)}
+                    </span>
+                    <span class="text-xs text-gray-400">–</span>
                     <span class="text-base font-bold text-primary">{r.pt.toFixed(2)}</span>
                     <span class="text-xs text-gray-400">–</span>
                     <span class="text-base font-bold text-secondary">{opt()?.pt.toFixed(2)}</span>
@@ -82,6 +87,11 @@ const ResultsPanel: Component<Props> = (props) => {
                     class="absolute inset-y-0 left-0 bg-primary rounded-full"
                     style={{ width: `${pct(r.pt)}%` }}
                     title={`Realistic: ${r.pt.toFixed(2)} PT`}
+                  />
+                  <div
+                    class="absolute inset-y-0 left-0 bg-conservative rounded-full"
+                    style={{ width: `${pct(con()?.pt ?? 0)}%` }}
+                    title={`Conservative: ${(con()?.pt ?? 0).toFixed(2)} PT`}
                   />
                 </div>
               </div>
