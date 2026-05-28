@@ -31,8 +31,20 @@
 - Only `ResultsPanel.tsx` touched — all conservative data already flowed in from Slice 1
 - `vp check` and `vp build` pass
 
-## Next: Slice 3 — Charts
+## Slice 3 — Charts ✅
 
-- Add `conservativeResult` + `conservativeCumulative` props to `ChartsPanel`
-- `BarChart`: 3 categories/data-points per person (Conservative, Realistic, Optimistic)
-- `CumulativeLineChart`: add third series (amber, dotted) for Conservative
+**Completed:** 2026-05-28
+
+**Changes:**
+
+- `src/components/charts/BarChart.tsx` — added `conservativeResult` prop; data now `[conservative, realistic, optimistic]`; categories `["Conservative", "Realistic", "Optimistic"]`
+- `src/components/charts/CumulativeLineChart.tsx` — added `conservativeCumulative` prop; Conservative series first (amber `#f59e0b`, `dashArray: 8`); colors `["#f59e0b", "#2563eb", "#93c5fd"]`
+- `src/components/ChartsPanel.tsx` — added `conservativeResult` + `conservativeCumulative` props; threaded to `BarChart` and `CumulativeLineChart`
+- `src/components/ResultsPanel.tsx` — added `conservativeCumulative` to Props; passed to `ChartsPanel`
+- `src/App.tsx` — passed `conservativeData().cumulative` as `conservativeCumulative` to `ResultsPanel`
+
+**Notes:**
+
+- `vp check` and `vp build` pass
+
+## Next: Slice 4 — Conservative Toggle

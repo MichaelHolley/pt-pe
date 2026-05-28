@@ -138,6 +138,7 @@ const App: Component = () => {
           conservativeResult={conservativeData().teamResult}
           realisticResult={realisticData().teamResult}
           optimisticResult={optimisticData().teamResult}
+          conservativeCumulative={conservativeData().cumulative}
           realisticCumulative={realisticData().cumulative}
           optimisticCumulative={optimisticData().cumulative}
         />

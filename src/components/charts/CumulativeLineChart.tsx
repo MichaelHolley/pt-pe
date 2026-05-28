@@ -4,12 +4,17 @@ import type { ApexOptions } from "apexcharts";
 import type { DailyPT } from "../../utils/calculator";
 
 interface Props {
+  conservativeCumulative: DailyPT[];
   realisticCumulative: DailyPT[];
   optimisticCumulative: DailyPT[];
 }
 
 const CumulativeLineChart: Component<Props> = (props) => {
   const series = createMemo(() => [
+    {
+      name: "Conservative",
+      data: props.conservativeCumulative.map((d) => d.cumPT),
+    },
     {
       name: "Realistic",
       data: props.realisticCumulative.map((d) => d.cumPT),
@@ -28,10 +33,10 @@ const CumulativeLineChart: Component<Props> = (props) => {
       background: "transparent",
       animations: { enabled: false },
     },
-    colors: ["#2563eb", "#93c5fd"], // primary (realistic), secondary (optimistic)
+    colors: ["#f59e0b", "#2563eb", "#93c5fd"], // conservative (amber), realistic (primary), optimistic (secondary)
     stroke: {
-      width: [2, 2],
-      dashArray: [0, 6],
+      width: [2, 2, 2],
+      dashArray: [8, 0, 6],
       curve: "stepline",
     },
     xaxis: {

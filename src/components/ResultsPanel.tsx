@@ -7,6 +7,7 @@ interface Props {
   conservativeResult: TeamResult;
   realisticResult: TeamResult;
   optimisticResult: TeamResult;
+  conservativeCumulative: DailyPT[];
   realisticCumulative: DailyPT[];
   optimisticCumulative: DailyPT[];
 }
@@ -101,8 +102,10 @@ const ResultsPanel: Component<Props> = (props) => {
       </div>
 
       <ChartsPanel
+        conservativeResult={props.conservativeResult}
         realisticResult={props.realisticResult}
         optimisticResult={props.optimisticResult}
+        conservativeCumulative={props.conservativeCumulative}
         realisticCumulative={props.realisticCumulative}
         optimisticCumulative={props.optimisticCumulative}
       />
