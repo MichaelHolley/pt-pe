@@ -4,6 +4,7 @@ import { toISO } from "./dateUtils";
 export interface AppState {
   startDate: string;
   endDate: string;
+  conservativeEnabled: boolean;
   conservativeEfficiency: number;
   realisticEfficiency: number;
   optimisticEfficiency: number;
@@ -31,6 +32,7 @@ const DEFAULT_HOURS_PER_DAY = { 1: 8, 2: 8, 3: 8, 4: 8, 5: 8 };
 const DEFAULT_STATE: AppState = {
   startDate: today(),
   endDate: defaultEndDate(),
+  conservativeEnabled: true,
   conservativeEfficiency: 65,
   realisticEfficiency: 75,
   optimisticEfficiency: 90,

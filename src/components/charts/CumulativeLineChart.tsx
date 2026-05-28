@@ -4,26 +4,32 @@ import type { ApexOptions } from "apexcharts";
 import type { DailyPT } from "../../utils/calculator";
 
 interface Props {
-  conservativeCumulative: DailyPT[];
+  conservativeEnabled: boolean;
+  conservativeCumulative: DailyPT[] | null;
   realisticCumulative: DailyPT[];
   optimisticCumulative: DailyPT[];
 }
 
 const CumulativeLineChart: Component<Props> = (props) => {
-  const series = createMemo(() => [
-    {
-      name: "Conservative",
-      data: props.conservativeCumulative.map((d) => d.cumPT),
-    },
-    {
-      name: "Realistic",
-      data: props.realisticCumulative.map((d) => d.cumPT),
-    },
-    {
-      name: "Optimistic",
-      data: props.optimisticCumulative.map((d) => d.cumPT),
-    },
-  ]);
+  const series = createMemo(() => {
+    const base = [
+      {
+        name: "Realistic",
+        data: props.realisticCumulative.map((d) => d.cumPT),
+      },
+      {
+        name: "Optimistic",
+        data: props.optimisticCumulative.map((d) => d.cumPT),
+      },
+    ];
+    if (props.conservativeEnabled && props.conservativeCumulative) {
+      return [
+        { name: "Conservative", data: props.conservativeCumulative.map((d) => d.cumPT) },
+        ...base,
+      ];
+    }
+    return base;
+  });
 
   const options = createMemo<ApexOptions>(() => ({
     chart: {
@@ -33,10 +39,10 @@ const CumulativeLineChart: Component<Props> = (props) => {
       background: "transparent",
       animations: { enabled: false },
     },
-    colors: ["#f59e0b", "#2563eb", "#93c5fd"], // conservative (amber), realistic (primary), optimistic (secondary)
+    colors: props.conservativeEnabled ? ["#f59e0b", "#2563eb", "#93c5fd"] : ["#2563eb", "#93c5fd"],
     stroke: {
-      width: [2, 2, 2],
-      dashArray: [8, 0, 6],
+      width: props.conservativeEnabled ? [2, 2, 2] : [2, 2],
+      dashArray: props.conservativeEnabled ? [8, 0, 6] : [0, 6],
       curve: "stepline",
     },
     xaxis: {

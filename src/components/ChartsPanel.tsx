@@ -5,10 +5,11 @@ import DonutChart from "./charts/DonutChart";
 import CumulativeLineChart from "./charts/CumulativeLineChart";
 
 interface Props {
-  conservativeResult: TeamResult;
+  conservativeEnabled: boolean;
+  conservativeResult: TeamResult | null;
   realisticResult: TeamResult;
   optimisticResult: TeamResult;
-  conservativeCumulative: DailyPT[];
+  conservativeCumulative: DailyPT[] | null;
   realisticCumulative: DailyPT[];
   optimisticCumulative: DailyPT[];
 }
@@ -22,6 +23,7 @@ const ChartsPanel: Component<Props> = (props) => {
             PT per Person
           </p>
           <BarChart
+            conservativeEnabled={props.conservativeEnabled}
             conservativeResult={props.conservativeResult}
             realisticResult={props.realisticResult}
             optimisticResult={props.optimisticResult}
@@ -40,6 +42,7 @@ const ChartsPanel: Component<Props> = (props) => {
           Cumulative PT over Time
         </p>
         <CumulativeLineChart
+          conservativeEnabled={props.conservativeEnabled}
           conservativeCumulative={props.conservativeCumulative}
           realisticCumulative={props.realisticCumulative}
           optimisticCumulative={props.optimisticCumulative}

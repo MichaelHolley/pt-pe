@@ -47,4 +47,24 @@
 
 - `vp check` and `vp build` pass
 
-## Next: Slice 4 — Conservative Toggle
+## Slice 4 — Conservative Toggle ✅
+
+**Completed:** 2026-05-28
+
+**Changes:**
+
+- `src/utils/storage.ts` — added `conservativeEnabled: boolean` to `AppState`; default `true`
+- `src/App.tsx` — `conservativeData` memo returns `null` when disabled; passed `conservativeEnabled` + `onConservativeEnabled` to `TimeframeSection` and `ResultsPanel`
+- `src/components/TimeframeSection.tsx` — inline toggle switch (amber when on, gray when off); hides Conservative % input when disabled
+- `src/components/ResultsPanel.tsx` — conditional `grid-cols-3` (Realistic / Optimistic / Difference) vs `grid-cols-4` (Conservative / Realistic / Optimistic / Range); per-person conservative PT and amber bar hidden when disabled
+- `src/components/ChartsPanel.tsx` — threads `conservativeEnabled` and nullable conservative props to charts
+- `src/components/charts/BarChart.tsx` — when disabled: 2 categories/data points (Realistic, Optimistic)
+- `src/components/charts/CumulativeLineChart.tsx` — when disabled: 2-line config with original colors/dashArray
+
+**Notes:**
+
+- Conservative efficiency value is preserved when toggled off — re-enabling restores the previous input
+- `conservativeResult` typed as `TeamResult | null` throughout; null when disabled
+- `vp check` and `vp build` pass
+
+## All slices complete

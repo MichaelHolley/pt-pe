@@ -5,7 +5,8 @@ import type { TeamResult } from "../../utils/calculator";
 import { getChartColors } from "../../utils/chartColors";
 
 interface Props {
-  conservativeResult: TeamResult;
+  conservativeEnabled: boolean;
+  conservativeResult: TeamResult | null;
   realisticResult: TeamResult;
   optimisticResult: TeamResult;
 }
@@ -14,11 +15,17 @@ const BarChart: Component<Props> = (props) => {
   const series = createMemo(() =>
     props.realisticResult.persons.map((r, i) => ({
       name: r.person.name || "Unnamed",
-      data: [
-        parseFloat((props.conservativeResult.persons[i]?.pt ?? 0).toFixed(2)),
-        parseFloat(r.pt.toFixed(2)),
-        parseFloat((props.optimisticResult.persons[i]?.pt ?? 0).toFixed(2)),
-      ],
+      data:
+        props.conservativeEnabled && props.conservativeResult
+          ? [
+              parseFloat((props.conservativeResult.persons[i]?.pt ?? 0).toFixed(2)),
+              parseFloat(r.pt.toFixed(2)),
+              parseFloat((props.optimisticResult.persons[i]?.pt ?? 0).toFixed(2)),
+            ]
+          : [
+              parseFloat(r.pt.toFixed(2)),
+              parseFloat((props.optimisticResult.persons[i]?.pt ?? 0).toFixed(2)),
+            ],
     })),
   );
 
@@ -44,7 +51,9 @@ const BarChart: Component<Props> = (props) => {
       style: { fontSize: "11px", colors: ["#6b7280"] },
     },
     xaxis: {
-      categories: ["Conservative", "Realistic", "Optimistic"],
+      categories: props.conservativeEnabled
+        ? ["Conservative", "Realistic", "Optimistic"]
+        : ["Realistic", "Optimistic"],
       axisBorder: { show: false },
       axisTicks: { show: false },
       labels: { style: { colors: "#9ca3af", fontSize: "12px" } },

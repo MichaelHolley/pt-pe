@@ -13,13 +13,15 @@ const App: Component = () => {
   createEffect(() => saveState({ ...state, persons: [...state.persons] }));
 
   const conservativeData = createMemo(() =>
-    calcTeamResultWithCumulative(
-      state.persons,
-      state.startDate,
-      state.endDate,
-      state.conservativeEfficiency,
-      state.globalBlockedDates,
-    ),
+    state.conservativeEnabled
+      ? calcTeamResultWithCumulative(
+          state.persons,
+          state.startDate,
+          state.endDate,
+          state.conservativeEfficiency,
+          state.globalBlockedDates,
+        )
+      : null,
   );
 
   const realisticData = createMemo(() =>
@@ -99,12 +101,14 @@ const App: Component = () => {
         <TimeframeSection
           startDate={state.startDate}
           endDate={state.endDate}
+          conservativeEnabled={state.conservativeEnabled}
           conservativeEfficiency={state.conservativeEfficiency}
           realisticEfficiency={state.realisticEfficiency}
           optimisticEfficiency={state.optimisticEfficiency}
           globalBlockedDates={state.globalBlockedDates}
           onStartDate={(v) => setState("startDate", v)}
           onEndDate={(v) => setState("endDate", v)}
+          onConservativeEnabled={(v) => setState("conservativeEnabled", v)}
           onConservativeEfficiency={(v) => setState("conservativeEfficiency", v)}
           onRealisticEfficiency={(v) => setState("realisticEfficiency", v)}
           onOptimisticEfficiency={(v) => setState("optimisticEfficiency", v)}
@@ -135,10 +139,11 @@ const App: Component = () => {
       {/* Right panel */}
       <div class="flex-1 md:h-screen md:overflow-y-auto px-6 py-8">
         <ResultsPanel
-          conservativeResult={conservativeData().teamResult}
+          conservativeEnabled={state.conservativeEnabled}
+          conservativeResult={conservativeData()?.teamResult ?? null}
           realisticResult={realisticData().teamResult}
           optimisticResult={optimisticData().teamResult}
-          conservativeCumulative={conservativeData().cumulative}
+          conservativeCumulative={conservativeData()?.cumulative ?? null}
           realisticCumulative={realisticData().cumulative}
           optimisticCumulative={optimisticData().cumulative}
         />

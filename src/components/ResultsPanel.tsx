@@ -1,19 +1,21 @@
-import { For, type Component } from "solid-js";
+import { For, Show, type Component } from "solid-js";
 import type { TeamResult, DailyPT } from "../utils/calculator";
 import ChartsPanel from "./ChartsPanel";
 import PTStat from "./ui/PTStat";
 
 interface Props {
-  conservativeResult: TeamResult;
+  conservativeEnabled: boolean;
+  conservativeResult: TeamResult | null;
   realisticResult: TeamResult;
   optimisticResult: TeamResult;
-  conservativeCumulative: DailyPT[];
+  conservativeCumulative: DailyPT[] | null;
   realisticCumulative: DailyPT[];
   optimisticCumulative: DailyPT[];
 }
 
 const ResultsPanel: Component<Props> = (props) => {
-  const range = () => props.optimisticResult.totalPT - props.conservativeResult.totalPT;
+  const range = () => props.optimisticResult.totalPT - props.realisticResult.totalPT;
+  const fullRange = () => props.optimisticResult.totalPT - (props.conservativeResult?.totalPT ?? 0);
 
   return (
     <section class="bg-white rounded-xl border border-gray-200 p-6">
@@ -22,30 +24,49 @@ const ResultsPanel: Component<Props> = (props) => {
         <span class="text-xs text-gray-400">1 PT = 8 hours</span>
       </div>
 
-      <div class="grid grid-cols-4 gap-4 mb-6">
-        <PTStat
-          label="Conservative"
-          value={props.conservativeResult.totalPT.toFixed(2)}
-          variant="conservative"
-        />
-        <PTStat
-          label="Realistic"
-          value={props.realisticResult.totalPT.toFixed(2)}
-          variant="realistic"
-        />
-        <PTStat
-          label="Optimistic"
-          value={props.optimisticResult.totalPT.toFixed(2)}
-          variant="optimistic"
-        />
-        <PTStat label="Range" value={`+${range().toFixed(2)}`} variant="neutral" />
-      </div>
+      <Show
+        when={props.conservativeEnabled && props.conservativeResult}
+        fallback={
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <PTStat
+              label="Realistic"
+              value={props.realisticResult.totalPT.toFixed(2)}
+              variant="realistic"
+            />
+            <PTStat
+              label="Optimistic"
+              value={props.optimisticResult.totalPT.toFixed(2)}
+              variant="optimistic"
+            />
+            <PTStat label="Difference" value={`+${range().toFixed(2)}`} variant="neutral" />
+          </div>
+        }
+      >
+        <div class="grid grid-cols-4 gap-4 mb-6">
+          <PTStat
+            label="Conservative"
+            value={(props.conservativeResult?.totalPT ?? 0).toFixed(2)}
+            variant="conservative"
+          />
+          <PTStat
+            label="Realistic"
+            value={props.realisticResult.totalPT.toFixed(2)}
+            variant="realistic"
+          />
+          <PTStat
+            label="Optimistic"
+            value={props.optimisticResult.totalPT.toFixed(2)}
+            variant="optimistic"
+          />
+          <PTStat label="Range" value={`+${fullRange().toFixed(2)}`} variant="neutral" />
+        </div>
+      </Show>
 
       <div class="flex flex-col gap-3">
         <For each={props.realisticResult.persons}>
           {(r, i) => {
             const opt = () => props.optimisticResult.persons[i()];
-            const con = () => props.conservativeResult.persons[i()];
+            const con = () => props.conservativeResult?.persons[i()];
             const base = () => props.realisticResult.calendarWorkingDays;
             const pct = (v: number) => (base() > 0 ? (v / base()) * 100 : 0);
             return (
@@ -60,10 +81,12 @@ const ResultsPanel: Component<Props> = (props) => {
                     </span>
                   </div>
                   <div class="flex items-baseline gap-1.5">
-                    <span class="text-base font-bold text-conservative">
-                      {con()?.pt.toFixed(2)}
-                    </span>
-                    <span class="text-xs text-gray-400">–</span>
+                    <Show when={props.conservativeEnabled && con()}>
+                      <span class="text-base font-bold text-conservative">
+                        {con()?.pt.toFixed(2)}
+                      </span>
+                      <span class="text-xs text-gray-400">–</span>
+                    </Show>
                     <span class="text-base font-bold text-primary">{r.pt.toFixed(2)}</span>
                     <span class="text-xs text-gray-400">–</span>
                     <span class="text-base font-bold text-secondary">{opt()?.pt.toFixed(2)}</span>
@@ -89,11 +112,13 @@ const ResultsPanel: Component<Props> = (props) => {
                     style={{ width: `${pct(r.pt)}%` }}
                     title={`Realistic: ${r.pt.toFixed(2)} PT`}
                   />
-                  <div
-                    class="absolute inset-y-0 left-0 bg-conservative rounded-full"
-                    style={{ width: `${pct(con()?.pt ?? 0)}%` }}
-                    title={`Conservative: ${(con()?.pt ?? 0).toFixed(2)} PT`}
-                  />
+                  <Show when={props.conservativeEnabled && con()}>
+                    <div
+                      class="absolute inset-y-0 left-0 bg-conservative rounded-full"
+                      style={{ width: `${pct(con()?.pt ?? 0)}%` }}
+                      title={`Conservative: ${(con()?.pt ?? 0).toFixed(2)} PT`}
+                    />
+                  </Show>
                 </div>
               </div>
             );
@@ -102,6 +127,7 @@ const ResultsPanel: Component<Props> = (props) => {
       </div>
 
       <ChartsPanel
+        conservativeEnabled={props.conservativeEnabled}
         conservativeResult={props.conservativeResult}
         realisticResult={props.realisticResult}
         optimisticResult={props.optimisticResult}
