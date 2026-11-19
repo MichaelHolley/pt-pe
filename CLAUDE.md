@@ -2,7 +2,7 @@
 
 ## What this is
 
-Frontend-only SolidJS app that estimates achievable **Projekt Tage (PT)** for a team in a date range. 1 PT = 8 hours. No backend, no external APIs.
+Frontend-only SolidJS app that estimates achievable **Personen Tage (PT)** (person-days) for a team in a date range. 1 PT = 8 hours. No backend, no external APIs.
 
 ## Stack
 
