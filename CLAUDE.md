@@ -2,7 +2,7 @@
 
 ## What this is
 
-Frontend-only SolidJS app that estimates achievable **Personen Tage (PT)** (person-days) for a team in a date range. 1 PT = 8 hours. No backend, no external APIs.
+Frontend-only SolidJS app that estimates achievable **project-days (PD)** for a team in a date range. 1 PD = 8 hours. No backend, no external APIs.
 
 ## Stack
 
@@ -54,7 +54,7 @@ working_days = days in [start, end] that are Mon–Fri
                AND hoursPerDay[weekday] > 0
 gross_hours  = sum of hoursPerDay[weekday] for each working day
 net_hours    = gross_hours × (efficiencyPercent / 100)
-PT           = net_hours / 8
+PD           = net_hours / 8
 ```
 
 ## SolidJS patterns — important

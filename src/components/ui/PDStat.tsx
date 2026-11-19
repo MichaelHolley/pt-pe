@@ -14,7 +14,7 @@ const VALUE_CLASSES: Record<Variant, string> = {
   neutral: "text-gray-600",
 };
 
-const PTStat: Component<Props> = (props) => {
+const PDStat: Component<Props> = (props) => {
   return (
     <div class="flex flex-col items-center bg-gray-50 rounded-xl border border-gray-100 px-4 py-3">
       <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">
@@ -24,10 +24,10 @@ const PTStat: Component<Props> = (props) => {
         <span class={`text-3xl font-bold ${VALUE_CLASSES[props.variant ?? "neutral"]}`}>
           {props.value}
         </span>
-        <span class="text-base font-semibold text-gray-400">PT</span>
+        <span class="text-base font-semibold text-gray-400">PD</span>
       </div>
     </div>
   );
 };
 
-export default PTStat;
+export default PDStat;

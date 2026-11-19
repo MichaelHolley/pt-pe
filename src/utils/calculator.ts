@@ -1,6 +1,6 @@
 import { toISO } from "./dateUtils";
 
-const PT_HOURS = 8;
+const PD_HOURS = 8;
 
 export interface HoursPerDay {
   1: number;
@@ -22,29 +22,29 @@ export interface PersonResult {
   workingDays: number;
   grossHours: number;
   netHours: number;
-  pt: number;
+  pd: number;
 }
 
 export interface TeamResult {
   persons: PersonResult[];
-  totalPT: number;
+  totalPD: number;
   calendarWorkingDays: number;
 }
 
-export interface DailyPT {
+export interface DailyPD {
   date: string; // formatted label e.g. "Apr 7"
-  cumPT: number;
+  cumPD: number;
 }
 
 export interface TeamResultWithCumulative {
   teamResult: TeamResult;
-  cumulative: DailyPT[];
+  cumulative: DailyPD[];
 }
 
 /**
  * Single-pass calculation that produces both the per-person TeamResult and the
- * daily cumulative PT series. Replaces the previous calcTeamResult +
- * calcDailyCumulativePT pair, halving the number of date-range iterations per
+ * daily cumulative PD series. Replaces the previous calcTeamResult +
+ * calcDailyCumulativePD pair, halving the number of date-range iterations per
  * scenario.
  */
 export function calcTeamResultWithCumulative(
@@ -63,8 +63,8 @@ export function calcTeamResultWithCumulative(
     grossHours: 0,
   }));
 
-  const cumulative: DailyPT[] = [];
-  let runningCumPT = 0;
+  const cumulative: DailyPD[] = [];
+  let runningCumPD = 0;
   let calendarWorkingDays = 0;
 
   const cur = new Date(startISO + "T00:00:00");
@@ -89,10 +89,10 @@ export function calcTeamResultWithCumulative(
           }
         }
       }
-      runningCumPT += (dayHours * (efficiencyPercent / 100)) / PT_HOURS;
+      runningCumPD += (dayHours * (efficiencyPercent / 100)) / PD_HOURS;
     }
 
-    cumulative.push({ date: label, cumPT: parseFloat(runningCumPT.toFixed(2)) });
+    cumulative.push({ date: label, cumPD: parseFloat(runningCumPD.toFixed(2)) });
     cur.setDate(cur.getDate() + 1);
   }
 
@@ -103,14 +103,14 @@ export function calcTeamResultWithCumulative(
       workingDays: acc.workingDays,
       grossHours: acc.grossHours,
       netHours,
-      pt: netHours / PT_HOURS,
+      pd: netHours / PD_HOURS,
     };
   });
 
-  const totalPT = personResults.reduce((sum, r) => sum + r.pt, 0);
+  const totalPD = personResults.reduce((sum, r) => sum + r.pd, 0);
 
   return {
-    teamResult: { persons: personResults, totalPT, calendarWorkingDays },
+    teamResult: { persons: personResults, totalPD, calendarWorkingDays },
     cumulative,
   };
 }

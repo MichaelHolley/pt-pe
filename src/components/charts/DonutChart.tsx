@@ -14,7 +14,7 @@ const DonutChart: Component<Props> = (props) => {
   );
 
   const series = createMemo(() =>
-    props.realisticResult.persons.map((r) => parseFloat(r.pt.toFixed(2))),
+    props.realisticResult.persons.map((r) => parseFloat(r.pd.toFixed(2))),
   );
 
   const options = createMemo<ApexOptions>(() => ({
@@ -34,10 +34,10 @@ const DonutChart: Component<Props> = (props) => {
             show: true,
             total: {
               show: true,
-              label: "Total PT",
+              label: "Total PD",
               fontSize: "12px",
               color: "#9ca3af",
-              formatter: () => props.realisticResult.totalPT.toFixed(1),
+              formatter: () => props.realisticResult.totalPD.toFixed(1),
             },
             value: {
               fontSize: "20px",
@@ -55,7 +55,7 @@ const DonutChart: Component<Props> = (props) => {
       labels: { colors: "#6b7280" },
       markers: { size: 6 },
     },
-    tooltip: { y: { formatter: (val: number) => `${val.toFixed(2)} PT` } },
+    tooltip: { y: { formatter: (val: number) => `${val.toFixed(2)} PD` } },
   }));
 
   return (

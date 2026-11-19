@@ -1,8 +1,8 @@
 import type { Component } from "solid-js";
 
 interface Props {
-  realisticPT: number;
-  optimisticPT: number;
+  realisticPD: number;
+  optimisticPD: number;
   visible: boolean;
   onScrollToResults: () => void;
 }
@@ -23,8 +23,8 @@ const FloatingFooter: Component<Props> = (props) => {
             Realistic
           </span>
           <div class="flex items-baseline gap-1">
-            <span class="text-2xl font-bold text-primary">{props.realisticPT.toFixed(2)}</span>
-            <span class="text-sm font-medium text-gray-400">PT</span>
+            <span class="text-2xl font-bold text-primary">{props.realisticPD.toFixed(2)}</span>
+            <span class="text-sm font-medium text-gray-400">PD</span>
           </div>
         </div>
         <span class="text-gray-600 font-medium">–</span>
@@ -33,8 +33,8 @@ const FloatingFooter: Component<Props> = (props) => {
             Optimistic
           </span>
           <div class="flex items-baseline gap-1">
-            <span class="text-2xl font-bold text-secondary">{props.optimisticPT.toFixed(2)}</span>
-            <span class="text-sm font-medium text-gray-400">PT</span>
+            <span class="text-2xl font-bold text-secondary">{props.optimisticPD.toFixed(2)}</span>
+            <span class="text-sm font-medium text-gray-400">PD</span>
           </div>
         </div>
       </div>

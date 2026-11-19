@@ -1,22 +1,22 @@
 import { createMemo, type Component } from "solid-js";
 import { SolidApexCharts } from "solid-apexcharts";
 import type { ApexOptions } from "apexcharts";
-import type { DailyPT } from "../../utils/calculator";
+import type { DailyPD } from "../../utils/calculator";
 
 interface Props {
-  realisticCumulative: DailyPT[];
-  optimisticCumulative: DailyPT[];
+  realisticCumulative: DailyPD[];
+  optimisticCumulative: DailyPD[];
 }
 
 const CumulativeLineChart: Component<Props> = (props) => {
   const series = createMemo(() => [
     {
       name: "Realistic",
-      data: props.realisticCumulative.map((d) => d.cumPT),
+      data: props.realisticCumulative.map((d) => d.cumPD),
     },
     {
       name: "Optimistic",
-      data: props.optimisticCumulative.map((d) => d.cumPT),
+      data: props.optimisticCumulative.map((d) => d.cumPD),
     },
   ]);
 
@@ -46,7 +46,7 @@ const CumulativeLineChart: Component<Props> = (props) => {
         formatter: (val: number) => val.toFixed(1),
         style: { colors: "#9ca3af", fontSize: "11px" },
       },
-      title: { text: "Cumulative PT", style: { color: "#9ca3af", fontSize: "11px" } },
+      title: { text: "Cumulative PD", style: { color: "#9ca3af", fontSize: "11px" } },
     },
     grid: { borderColor: "#f3f4f6", strokeDashArray: 4 },
     legend: {
@@ -57,7 +57,7 @@ const CumulativeLineChart: Component<Props> = (props) => {
     },
     tooltip: {
       shared: true,
-      y: { formatter: (val: number) => `${val.toFixed(2)} PT` },
+      y: { formatter: (val: number) => `${val.toFixed(2)} PD` },
     },
     markers: { size: 0 },
   }));

@@ -14,8 +14,8 @@ const BarChart: Component<Props> = (props) => {
     props.realisticResult.persons.map((r, i) => ({
       name: r.person.name || "Unnamed",
       data: [
-        parseFloat(r.pt.toFixed(2)),
-        parseFloat((props.optimisticResult.persons[i]?.pt ?? 0).toFixed(2)),
+        parseFloat(r.pd.toFixed(2)),
+        parseFloat((props.optimisticResult.persons[i]?.pd ?? 0).toFixed(2)),
       ],
     })),
   );
@@ -52,7 +52,7 @@ const BarChart: Component<Props> = (props) => {
         formatter: (val: number) => val.toFixed(1),
         style: { colors: "#9ca3af", fontSize: "11px" },
       },
-      title: { text: "PT", style: { color: "#9ca3af", fontSize: "11px" } },
+      title: { text: "PD", style: { color: "#9ca3af", fontSize: "11px" } },
     },
     grid: { borderColor: "#f3f4f6", strokeDashArray: 4 },
     legend: {
@@ -61,7 +61,7 @@ const BarChart: Component<Props> = (props) => {
       labels: { colors: "#6b7280" },
       markers: { size: 6 },
     },
-    tooltip: { y: { formatter: (val: number) => `${val.toFixed(2)} PT` } },
+    tooltip: { y: { formatter: (val: number) => `${val.toFixed(2)} PD` } },
   }));
 
   return (

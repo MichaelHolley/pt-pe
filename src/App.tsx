@@ -36,7 +36,7 @@ const App: Component = () => {
         <header class="flex items-start justify-between">
           <div>
             <h1 class="text-2xl font-bold text-gray-900">PT Planner</h1>
-            <p class="text-sm text-gray-500 mt-1">Estimate achievable person-days for your team</p>
+            <p class="text-sm text-gray-500 mt-1">Estimate achievable project-days for your team</p>
           </div>
           <a
             href="https://github.com/MichaelHolley/pt-pe"

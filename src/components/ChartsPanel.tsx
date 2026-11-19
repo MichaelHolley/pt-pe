@@ -1,5 +1,5 @@
 import { type Component } from "solid-js";
-import type { TeamResult, DailyPT } from "../utils/calculator";
+import type { TeamResult, DailyPD } from "../utils/calculator";
 import BarChart from "./charts/BarChart";
 import DonutChart from "./charts/DonutChart";
 import CumulativeLineChart from "./charts/CumulativeLineChart";
@@ -7,8 +7,8 @@ import CumulativeLineChart from "./charts/CumulativeLineChart";
 interface Props {
   realisticResult: TeamResult;
   optimisticResult: TeamResult;
-  realisticCumulative: DailyPT[];
-  optimisticCumulative: DailyPT[];
+  realisticCumulative: DailyPD[];
+  optimisticCumulative: DailyPD[];
 }
 
 const ChartsPanel: Component<Props> = (props) => {
@@ -17,7 +17,7 @@ const ChartsPanel: Component<Props> = (props) => {
       <div class="grid grid-cols-2 gap-4 mt-6">
         <div class="bg-gray-50 rounded-xl border border-gray-100 p-4">
           <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
-            PT per Person
+            PD per Person
           </p>
           <BarChart
             realisticResult={props.realisticResult}
@@ -34,7 +34,7 @@ const ChartsPanel: Component<Props> = (props) => {
 
       <div class="bg-gray-50 rounded-xl border border-gray-100 p-4 mt-4">
         <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
-          Cumulative PT over Time
+          Cumulative PD over Time
         </p>
         <CumulativeLineChart
           realisticCumulative={props.realisticCumulative}

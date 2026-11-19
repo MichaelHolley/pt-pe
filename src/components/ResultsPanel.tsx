@@ -1,37 +1,37 @@
 import { For, type Component } from "solid-js";
-import type { TeamResult, DailyPT } from "../utils/calculator";
+import type { TeamResult, DailyPD } from "../utils/calculator";
 import ChartsPanel from "./ChartsPanel";
-import PTStat from "./ui/PTStat";
+import PDStat from "./ui/PDStat";
 
 interface Props {
   realisticResult: TeamResult;
   optimisticResult: TeamResult;
-  realisticCumulative: DailyPT[];
-  optimisticCumulative: DailyPT[];
+  realisticCumulative: DailyPD[];
+  optimisticCumulative: DailyPD[];
 }
 
 const ResultsPanel: Component<Props> = (props) => {
-  const delta = () => props.optimisticResult.totalPT - props.realisticResult.totalPT;
+  const delta = () => props.optimisticResult.totalPD - props.realisticResult.totalPD;
 
   return (
     <section class="bg-white rounded-xl border border-gray-200 p-6">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Results</h2>
-        <span class="text-xs text-gray-400">1 PT = 8 hours</span>
+        <span class="text-xs text-gray-400">1 PD = 8 hours</span>
       </div>
 
       <div class="grid grid-cols-3 gap-4 mb-6">
-        <PTStat
+        <PDStat
           label="Realistic"
-          value={props.realisticResult.totalPT.toFixed(2)}
+          value={props.realisticResult.totalPD.toFixed(2)}
           variant="realistic"
         />
-        <PTStat
+        <PDStat
           label="Optimistic"
-          value={props.optimisticResult.totalPT.toFixed(2)}
+          value={props.optimisticResult.totalPD.toFixed(2)}
           variant="optimistic"
         />
-        <PTStat
+        <PDStat
           label="Difference"
           value={`${delta() >= 0 ? "+" : ""}${delta().toFixed(2)}`}
           variant="neutral"
@@ -56,10 +56,10 @@ const ResultsPanel: Component<Props> = (props) => {
                     </span>
                   </div>
                   <div class="flex items-baseline gap-1.5">
-                    <span class="text-base font-bold text-primary">{r.pt.toFixed(2)}</span>
+                    <span class="text-base font-bold text-primary">{r.pd.toFixed(2)}</span>
                     <span class="text-xs text-gray-400">–</span>
-                    <span class="text-base font-bold text-secondary">{opt()?.pt.toFixed(2)}</span>
-                    <span class="text-xs text-gray-400">PT</span>
+                    <span class="text-base font-bold text-secondary">{opt()?.pd.toFixed(2)}</span>
+                    <span class="text-xs text-gray-400">PD</span>
                   </div>
                 </div>
                 <div
@@ -73,13 +73,13 @@ const ResultsPanel: Component<Props> = (props) => {
                   />
                   <div
                     class="absolute inset-y-0 left-0 bg-secondary rounded-full"
-                    style={{ width: `${pct(opt()?.pt ?? 0)}%` }}
-                    title={`Optimistic: ${(opt()?.pt ?? 0).toFixed(2)} PT`}
+                    style={{ width: `${pct(opt()?.pd ?? 0)}%` }}
+                    title={`Optimistic: ${(opt()?.pd ?? 0).toFixed(2)} PD`}
                   />
                   <div
                     class="absolute inset-y-0 left-0 bg-primary rounded-full"
-                    style={{ width: `${pct(r.pt)}%` }}
-                    title={`Realistic: ${r.pt.toFixed(2)} PT`}
+                    style={{ width: `${pct(r.pd)}%` }}
+                    title={`Realistic: ${r.pd.toFixed(2)} PD`}
                   />
                 </div>
               </div>
