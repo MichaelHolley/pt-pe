@@ -6,6 +6,7 @@ import {
   setRealisticEfficiency,
   setOptimisticEfficiency,
   toggleGlobalBlockedDate,
+  clearOutOfRangeGlobalBlockedDates,
 } from "../store";
 import WeekCalendar from "./WeekCalendar";
 
@@ -70,6 +71,7 @@ const TimeframeSection: Component = () => {
         endDate={state.endDate}
         globalBlockedDates={state.globalBlockedDates}
         onToggle={toggleGlobalBlockedDate}
+        onClearOutOfRange={clearOutOfRangeGlobalBlockedDates}
       />
     </section>
   );

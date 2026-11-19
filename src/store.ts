@@ -1,5 +1,6 @@
 import { createStore } from "solid-js/store";
 import type { Person } from "./utils/calculator";
+import { isOutOfRange } from "./utils/dateUtils";
 import { loadState } from "./utils/storage";
 
 const [state, setState] = createStore(loadState());
@@ -13,6 +14,11 @@ export const setOptimisticEfficiency = (v: number) => setState("optimisticEffici
 export const toggleGlobalBlockedDate = (date: string) =>
   setState("globalBlockedDates", (dates) =>
     dates.includes(date) ? dates.filter((d) => d !== date) : [...dates, date].sort(),
+  );
+
+export const clearOutOfRangeGlobalBlockedDates = () =>
+  setState("globalBlockedDates", (dates) =>
+    dates.filter((d) => !isOutOfRange(d, state.startDate, state.endDate)),
   );
 
 export const addPerson = () => {

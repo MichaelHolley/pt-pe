@@ -1,6 +1,6 @@
 import { createSignal, For, type Component } from "solid-js";
 import type { Person } from "../utils/calculator";
-import { toISO } from "../utils/dateUtils";
+import { isOutOfRange, toISO } from "../utils/dateUtils";
 import { state, updatePerson, removePerson } from "../store";
 import Avatar from "./ui/Avatar";
 import Badge from "./ui/Badge";
@@ -52,6 +52,13 @@ const PersonCard: Component<Props> = (props) => {
       blockedDates: props.person.blockedDates.filter((d) => d !== date),
     });
   };
+
+  const clearOutOfRange = () =>
+    update({
+      blockedDates: props.person.blockedDates.filter(
+        (d) => !isOutOfRange(d, state.startDate, state.endDate),
+      ),
+    });
 
   return (
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
@@ -125,9 +132,11 @@ const PersonCard: Component<Props> = (props) => {
             </span>
             <OutOfRangeBadge
               count={
-                props.person.blockedDates.filter((d) => d < state.startDate || d > state.endDate)
-                  .length
+                props.person.blockedDates.filter((d) =>
+                  isOutOfRange(d, state.startDate, state.endDate),
+                ).length
               }
+              onClear={clearOutOfRange}
             />
           </div>
           <div class="flex items-end gap-2">

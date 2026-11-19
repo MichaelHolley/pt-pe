@@ -1,12 +1,13 @@
 import { For, type Component } from "solid-js";
 import OutOfRangeBadge from "./ui/OutOfRangeBadge";
-import { toISO } from "../utils/dateUtils";
+import { isOutOfRange, toISO } from "../utils/dateUtils";
 
 interface Props {
   startDate: string;
   endDate: string;
   globalBlockedDates: string[];
   onToggle: (date: string) => void;
+  onClearOutOfRange: () => void;
 }
 
 const MONTH_ABBR = [
@@ -74,9 +75,11 @@ const WeekCalendar: Component<Props> = (props) => {
             <OutOfRangeBadge
               class="ml-2"
               count={
-                props.globalBlockedDates.filter((d) => d < props.startDate || d > props.endDate)
-                  .length
+                props.globalBlockedDates.filter((d) =>
+                  isOutOfRange(d, props.startDate, props.endDate),
+                ).length
               }
+              onClear={props.onClearOutOfRange}
             />
           </span>
         )}
