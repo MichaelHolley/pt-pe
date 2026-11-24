@@ -32,9 +32,6 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      d3-shape:
-        specifier: ^3.2.1
-        version: 3.2.1
       lucide-react:
         specifier: ^0.577.0
         version: 0.577.0(react@19.3.1)
@@ -72,9 +69,6 @@ importers:
       '@tanstack/eslint-config':
         specifier: 0.5.0
         version: 0.5.0(@typescript-eslint/utils@8.74.0(eslint@9.39.5(jiti@2.7.0))(typescript@6.0.3))(eslint@9.39.5(jiti@2.7.0))(typescript@6.0.3)
-      '@types/d3-shape':
-        specifier: ^3.2.0
-        version: 3.2.0
       '@types/node':
         specifier: ^22.10.2
         version: 22.20.5
@@ -2152,10 +2146,6 @@ packages:
 
   d3-shape@3.2.0:
     resolution: {integrity: sha512-SaLBuwGm3MOViRq2ABk3eLoxwZELpH6zhl3FbAoJ7Vm1gofKx6El1Ib5z23NUEhF9AsGl7y+dzLe5Cw2AArGTA==}
-    engines: {node: '>=12'}
-
-  d3-shape@3.2.1:
-    resolution: {integrity: sha512-dm2o+lbKdzg9tY7GEag/dB9hcbodLfwkE/DkvqbELJXaMz0yKzWWhZqhbI7CKubukA7HnRyz0avdtvi7EPxPvw==}
     engines: {node: '>=12'}
 
   d3-time-format@4.1.1:
@@ -5246,10 +5236,6 @@ snapshots:
       d3-path: 1.0.9
 
   d3-shape@3.2.0:
-    dependencies:
-      d3-path: 3.1.1
-
-  d3-shape@3.2.1:
     dependencies:
       d3-path: 3.1.1
 

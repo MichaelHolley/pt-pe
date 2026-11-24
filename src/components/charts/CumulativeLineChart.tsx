@@ -1,12 +1,11 @@
 import { useMemo } from 'react'
-import { curveStepAfter } from 'd3-shape'
 import {
   colorLegend,
   colorLegendItems,
   defineChart,
   lineY,
 } from '@tanstack/charts'
-import { d3Curve } from '@tanstack/charts/d3/shape'
+import type { ChartCurve } from '@tanstack/charts'
 import { Chart } from '@tanstack/charts/react'
 import { scaleLinear } from '@tanstack/charts/scales/linear'
 import { scaleOrdinal } from '@tanstack/charts/scales/ordinal'
@@ -14,7 +13,12 @@ import { tooltip } from '@tanstack/charts/tooltip'
 import type { DailyPD } from '#/lib/calculator'
 
 const SCENARIOS = ['Realistic', 'Optimistic']
-const stepAfter = d3Curve(curveStepAfter)
+// Line marks only; `area` is required by the type but never called here.
+const stepAfter: ChartCurve = {
+  line: (points) =>
+    points.map(([x, y], i) => (i === 0 ? `M${x},${y}` : `H${x}V${y}`)).join(''),
+  area: () => '',
+}
 
 interface Props {
   realisticCumulative: DailyPD[]
