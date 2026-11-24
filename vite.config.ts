@@ -1,19 +1,21 @@
-import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "vite-plus";
-import solidPlugin from "vite-plugin-solid";
-import devtools from "solid-devtools/vite";
+import { defineConfig } from 'vite'
+import { devtools } from '@tanstack/devtools-vite'
 
-export default defineConfig({
-  staged: {
-    "*": "vp check --fix",
-  },
-  fmt: {},
-  lint: { options: { typeAware: true, typeCheck: true } },
-  plugins: [devtools(), solidPlugin(), tailwindcss()],
-  server: {
-    port: 3000,
-  },
-  build: {
-    target: "esnext",
-  },
-});
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+
+import viteReact from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+import { nitro } from 'nitro/vite'
+
+const config = defineConfig({
+  resolve: { tsconfigPaths: true },
+  plugins: [
+    devtools(),
+    nitro({ rollupConfig: { external: [/^@sentry\//] } }),
+    tailwindcss(),
+    tanstackStart(),
+    viteReact(),
+  ],
+})
+
+export default config
