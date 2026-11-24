@@ -24,7 +24,7 @@ function ChartTile({
   return (
     <div
       className={cn(
-        'flex flex-col gap-2 rounded-xl border bg-muted/50 p-4',
+        'flex min-w-0 flex-col gap-2 rounded-xl border bg-muted/50 p-4',
         className,
       )}
     >
@@ -36,7 +36,7 @@ function ChartTile({
 
 export function ChartsPanel(props: Props) {
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 gap-4 @min-[32rem]:grid-cols-2">
       <ChartTile title="PD per Person">
         <BarChart
           realisticResult={props.realisticResult}
@@ -46,7 +46,7 @@ export function ChartsPanel(props: Props) {
       <ChartTile title="Team Share (Realistic)">
         <DonutChart realisticResult={props.realisticResult} />
       </ChartTile>
-      <ChartTile title="Cumulative PD over Time" className="col-span-2">
+      <ChartTile title="Cumulative PD over Time" className="col-span-full">
         <CumulativeLineChart
           realisticCumulative={props.realisticCumulative}
           optimisticCumulative={props.optimisticCumulative}

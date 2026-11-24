@@ -9,6 +9,22 @@ pnpm install
 pnpm dev
 ```
 
+## Reading the results
+
+- **Difference** is optimistic PD minus realistic PD. It is a change between
+  scenarios, not lost capacity.
+- **Capacity by person** compares everyone on the same horizontal scale. Solid
+  blue shows realistic delivery; light blue extends it to the optimistic estimate.
+  Each scenario's exact PD is also shown beside the person's name.
+- **100% full time** is eight hours for every Monday–Friday in the selected range,
+  before blocked dates, individual schedules, and efficiency. The hatched area
+  is the gap between the higher estimate and that baseline, not the difference
+  between scenarios. Gross hours and available working days remain visible.
+- Schedules above eight hours per day can produce estimates above 100%. The
+  shared scale expands rather than clipping them; the dashed marker stays at
+  100%. If optimistic efficiency is lower than realistic, the colors still mark
+  their respective endpoints and a note flags the reversed scenarios.
+
 # Building For Production
 
 To build this application for production:

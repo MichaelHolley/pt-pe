@@ -84,7 +84,7 @@ function Planner() {
         </section>
       </div>
 
-      <div className="flex-1 px-6 py-8 md:h-screen md:overflow-y-auto">
+      <div className="min-w-0 flex-1 px-6 py-8 md:h-screen md:overflow-y-auto">
         <ResultsPanel
           realisticResult={realistic.teamResult}
           optimisticResult={optimistic.teamResult}
