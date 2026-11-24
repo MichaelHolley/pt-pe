@@ -8,6 +8,7 @@
 :root {
   --realistic: var(--color-blue-600);
   --optimistic: var(--color-blue-300);
+  --loss: var(--color-amber-500);
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -82,6 +83,7 @@
 @theme inline {
   --color-realistic: var(--realistic);
   --color-optimistic: var(--optimistic);
+  --color-loss: var(--loss);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -118,6 +120,15 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@utility loss-hatch {
+  background-color: color-mix(in oklab, var(--loss) 25%, transparent);
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--loss) 0 2px,
+    transparent 2px 5px
+  );
 }
 
 @layer base {
