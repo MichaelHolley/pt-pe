@@ -17,13 +17,13 @@ export function OutOfRangeBadge({ count, onClear, className }: Props) {
         className,
       )}
     >
-      {count} out of range
+      {count} outside timeframe
       <button
         type="button"
         onClick={onClear}
         className="underline transition-colors hover:text-orange-700"
       >
-        Clear
+        Remove
       </button>
     </Badge>
   )

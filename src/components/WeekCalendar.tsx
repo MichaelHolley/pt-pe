@@ -61,10 +61,10 @@ export function WeekCalendar({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <SectionTitle>Calendar</SectionTitle>
+        <SectionTitle>Team holidays</SectionTitle>
         {blockedCount > 0 && (
           <span className="flex items-center gap-2 text-xs text-red-500">
-            {blockedCount} blocked day{blockedCount !== 1 ? 's' : ''}
+            {blockedCount} holiday{blockedCount !== 1 ? 's' : ''}
             <OutOfRangeBadge
               count={
                 globalBlockedDates.filter((d) =>
@@ -128,11 +128,9 @@ export function WeekCalendar({
           </tbody>
         </table>
       </div>
-      {blockedCount > 0 && (
-        <p className="text-xs text-muted-foreground">
-          Click a red day to unblock it
-        </p>
-      )}
+      <p className="text-xs text-muted-foreground">
+        Click a day to toggle a holiday
+      </p>
     </div>
   )
 }

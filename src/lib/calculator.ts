@@ -28,7 +28,7 @@ export interface PersonResult {
 export interface TeamResult {
   persons: PersonResult[]
   totalPD: number
-  calendarWorkingDays: number
+  weekdaysInRange: number
 }
 
 export interface DailyPD {
@@ -65,7 +65,7 @@ export function calcTeamResultWithCumulative(
 
   const cumulative: DailyPD[] = []
   let runningCumPD = 0
-  let calendarWorkingDays = 0
+  let weekdaysInRange = 0
 
   const cur = new Date(startISO + 'T00:00:00')
   const end = new Date(endISO + 'T00:00:00')
@@ -78,7 +78,7 @@ export function calcTeamResultWithCumulative(
       day: 'numeric',
     })
 
-    if (dow >= 1 && dow <= 5) calendarWorkingDays++
+    if (dow >= 1 && dow <= 5) weekdaysInRange++
 
     if (dow >= 1 && dow <= 5 && !globalSet.has(iso)) {
       let dayHours = 0
@@ -113,7 +113,7 @@ export function calcTeamResultWithCumulative(
   const totalPD = personResults.reduce((sum, r) => sum + r.pd, 0)
 
   return {
-    teamResult: { persons: personResults, totalPD, calendarWorkingDays },
+    teamResult: { persons: personResults, totalPD, weekdaysInRange },
     cumulative,
   }
 }

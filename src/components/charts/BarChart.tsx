@@ -62,7 +62,7 @@ export function BarChart({ realisticResult, optimisticResult }: Props) {
     <Chart
       definition={definition}
       height={240}
-      ariaLabel="Person-days per team member, realistic and optimistic"
+      ariaLabel="PD per person, realistic and optimistic"
     />
   )
 }

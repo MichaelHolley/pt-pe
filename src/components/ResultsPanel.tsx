@@ -50,7 +50,7 @@ export function ResultsPanel(props: Props) {
       <CardHeader>
         <CardTitle>Results</CardTitle>
         <CardAction className="text-xs text-muted-foreground">
-          1 PD = 8 hours
+          1 PD = 8 h
         </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
@@ -66,7 +66,7 @@ export function ResultsPanel(props: Props) {
             className="text-optimistic"
           />
           <PDStat
-            label="Difference"
+            label="Upside"
             value={`${delta >= 0 ? '+' : ''}${delta.toFixed(2)}`}
             className="text-optimistic"
           />

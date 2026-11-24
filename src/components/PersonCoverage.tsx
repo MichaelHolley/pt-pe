@@ -10,9 +10,9 @@ interface Props {
 
 const SEGMENTS = [
   { key: 'realistic', label: 'Realistic', className: 'bg-realistic' },
-  { key: 'upside', label: 'Optimistic upside', className: 'bg-optimistic' },
+  { key: 'upside', label: 'Upside', className: 'bg-optimistic' },
   { key: 'loss', label: 'Efficiency loss', className: 'loss-hatch' },
-  { key: 'unavailable', label: 'Not available', className: 'bg-muted' },
+  { key: 'unavailable', label: 'Unavailable', className: 'bg-muted' },
 ] as const
 
 type SegmentKey = (typeof SEGMENTS)[number]['key']
@@ -26,7 +26,7 @@ function Swatch({ className }: { className: string }) {
 }
 
 export function PersonCoverage({ realisticResult, optimisticResult }: Props) {
-  const base = realisticResult.calendarWorkingDays
+  const base = realisticResult.weekdaysInRange
   const pct = (pd: number) => (base > 0 ? (Math.max(0, pd) / base) * 100 : 0)
 
   return (
@@ -41,7 +41,7 @@ export function PersonCoverage({ realisticResult, optimisticResult }: Props) {
           ))}
         </ul>
         <span>
-          Full bar = {base} working days × {PD_HOURS} h
+          Full bar = {base} weekdays × {PD_HOURS} h
         </span>
       </div>
 
@@ -68,7 +68,7 @@ export function PersonCoverage({ realisticResult, optimisticResult }: Props) {
                   {r.person.name || 'Unnamed'}
                 </span>
                 <span className="text-xs text-muted-foreground tabular-nums">
-                  {r.workingDays}/{base} days, {r.grossHours.toFixed(0)} h
+                  {r.workingDays}/{base} weekdays, {r.grossHours.toFixed(0)} h
                 </span>
               </div>
 

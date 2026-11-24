@@ -4,7 +4,7 @@ import { Github, Plus } from 'lucide-react'
 import { PersonCard } from '#/components/PersonCard'
 import { ResultsPanel } from '#/components/ResultsPanel'
 import { SectionTitle } from '#/components/SectionTitle'
-import { TimeframeSection } from '#/components/TimeframeSection'
+import { SetupSection } from '#/components/SetupSection'
 import { Button } from '#/components/ui/button'
 import { calcTeamResultWithCumulative } from '#/lib/calculator'
 import { addPerson, usePlanner } from '#/lib/store'
@@ -67,7 +67,7 @@ function Planner() {
           </Button>
         </header>
 
-        <TimeframeSection />
+        <SetupSection />
 
         <section className="flex flex-col gap-3">
           <SectionTitle>Team</SectionTitle>
@@ -79,7 +79,7 @@ function Planner() {
             onClick={addPerson}
             className="h-12 border-2 border-dashed text-muted-foreground hover:border-blue-300 hover:bg-blue-50/40 hover:text-blue-500"
           >
-            <Plus /> Add Person
+            <Plus /> Add person
           </Button>
         </section>
       </div>

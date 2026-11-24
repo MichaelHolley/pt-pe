@@ -48,7 +48,7 @@ export function DonutChart({
       <Chart
         definition={definition}
         height={240}
-        ariaLabel="Share of realistic person-days per team member"
+        ariaLabel="Share of team PD per person (realistic)"
       />
       <div className="pointer-events-none absolute inset-x-0 top-0 bottom-8 flex flex-col items-center justify-center">
         <span className="text-xs text-muted-foreground">Total PD</span>

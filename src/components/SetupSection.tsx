@@ -65,18 +65,18 @@ function EfficiencyField({
   )
 }
 
-export function TimeframeSection() {
+export function SetupSection() {
   const state = usePlanner()
   const efficiencyId = useId()
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Timeframe</CardTitle>
+        <CardTitle>Setup</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
-          <Field label="Dates">
+          <Field label="Timeframe">
             {(id) => (
               <DateRangePicker
                 id={id}
