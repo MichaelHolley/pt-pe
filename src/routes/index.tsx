@@ -52,7 +52,7 @@ function Planner() {
           <div>
             <h1 className="text-2xl font-bold">PT Planner</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Estimate achievable project-days for your team
+              Estimate achievable person-days for your team
             </p>
           </div>
           <Button variant="ghost" size="icon" asChild>

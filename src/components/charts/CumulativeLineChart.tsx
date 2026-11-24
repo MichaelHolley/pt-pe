@@ -95,7 +95,7 @@ export function CumulativeLineChart({
     <Chart
       definition={definition}
       height={240}
-      ariaLabel="Cumulative project-days over time"
+      ariaLabel="Cumulative person-days over time"
     />
   )
 }
