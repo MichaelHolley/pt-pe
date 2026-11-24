@@ -15,11 +15,6 @@ export default [
     },
   },
   {
-    ignores: [
-      'eslint.config.js',
-      'prettier.config.js',
-      'src/components/ui/**',
-      'pt-pe-main/**',
-    ],
+    ignores: ['eslint.config.js', 'prettier.config.js', 'src/components/ui/**'],
   },
 ]
