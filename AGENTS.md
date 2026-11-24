@@ -51,6 +51,8 @@ Computed twice: once with the realistic, once with the optimistic efficiency.
 
 Use conventional commit messages like 'feat:', 'fix:', 'chore:', ...
 
+This project is mostly vibe coded. Commit to main, unless told otherwise.
+
 ## Feedback Loop
 
 Use `package.json` scripts over `pnpx` and `npx` commands. Validate changes with:
