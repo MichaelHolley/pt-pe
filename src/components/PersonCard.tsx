@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { X } from 'lucide-react'
+import { DateRangePicker } from '#/components/DateRangePicker'
+import type { IsoRange } from '#/components/DateRangePicker'
 import { OutOfRangeBadge } from '#/components/OutOfRangeBadge'
 import { SectionTitle } from '#/components/SectionTitle'
 import { Avatar, AvatarFallback } from '#/components/ui/avatar'
@@ -7,7 +9,6 @@ import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader } from '#/components/ui/card'
 import { Input } from '#/components/ui/input'
-import { Label } from '#/components/ui/label'
 import type { HoursPerDay, Person } from '#/lib/calculator'
 import { isOutOfRange, toISO } from '#/lib/dateUtils'
 import { removePerson, updatePerson, usePlanner } from '#/lib/store'
@@ -36,19 +37,17 @@ export function PersonCard({ person }: { person: Person }) {
   const startDate = usePlanner((s) => s.startDate)
   const endDate = usePlanner((s) => s.endDate)
   const canRemove = usePlanner((s) => s.persons.length > 1)
-  const [rangeStart, setRangeStart] = useState('')
-  const [rangeEnd, setRangeEnd] = useState('')
+  const [range, setRange] = useState<IsoRange>({})
 
   const update = (patch: Partial<Person>) => updatePerson(person.id, patch)
 
   const addBlockedRange = () => {
-    if (!rangeStart) return
-    const dates = weekdaysBetween(rangeStart, rangeEnd || rangeStart)
+    if (!range.from) return
+    const dates = weekdaysBetween(range.from, range.to ?? range.from)
     update({
       blockedDates: [...new Set([...person.blockedDates, ...dates])].sort(),
     })
-    setRangeStart('')
-    setRangeEnd('')
+    setRange({})
   }
 
   const weeklyHours = Object.values(person.hoursPerDay).reduce(
@@ -141,37 +140,16 @@ export function PersonCard({ person }: { person: Person }) {
               }
             />
           </div>
-          <div className="flex items-end gap-2">
-            <div className="flex flex-1 flex-col gap-1">
-              <Label
-                htmlFor={`${person.id}-from`}
-                className="text-[11px] text-muted-foreground"
-              >
-                From
-              </Label>
-              <Input
-                id={`${person.id}-from`}
-                type="date"
-                value={rangeStart}
-                onChange={(e) => setRangeStart(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-1 flex-col gap-1">
-              <Label
-                htmlFor={`${person.id}-to`}
-                className="text-[11px] text-muted-foreground"
-              >
-                To
-              </Label>
-              <Input
-                id={`${person.id}-to`}
-                type="date"
-                value={rangeEnd}
-                min={rangeStart}
-                onChange={(e) => setRangeEnd(e.target.value)}
-              />
-            </div>
-            <Button onClick={addBlockedRange}>Block</Button>
+          <div className="flex gap-2">
+            <DateRangePicker
+              value={range}
+              onChange={setRange}
+              placeholder="Pick a day or range"
+              className="flex-1"
+            />
+            <Button onClick={addBlockedRange} disabled={!range.from}>
+              Block
+            </Button>
           </div>
           {person.blockedDates.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
