@@ -50,7 +50,7 @@ function Planner() {
       <div className="flex flex-col gap-6 border-b px-6 py-8 md:h-screen md:w-[512px] md:shrink-0 md:overflow-y-auto md:border-r md:border-b-0">
         <header className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold">PT Planner</h1>
+            <h1 className="text-2xl font-bold">PD Planner</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               Estimate achievable person-days for your team
             </p>

@@ -1,6 +1,6 @@
 ## Project
 
-PT Planner: a frontend-only app that estimates how many **person-days (PD)** a team can deliver in a date range. 1 PD = 8 hours. No backend, no external APIs; all state lives in `localStorage`.
+PD Planner: a frontend-only app that estimates how many **person-days (PD)** a team can deliver in a date range. 1 PD = 8 hours. No backend, no external APIs; all state lives in `localStorage`.
 
 ## Project Configuration
 
@@ -27,7 +27,7 @@ Import app code via the `#/` alias (`#/lib/...`, `#/components/...`).
 
 - **Client-only page.** The index route sets `ssr: false`: state comes from `localStorage`, so server rendering would only cause hydration mismatches. Keep that unless state moves elsewhere.
 - **Store shape.** `usePlanner` holds plain `AppState` only; mutations are exported functions (`addPerson`, `updatePerson`, …) calling `setState`. Components read with selectors. Results are derived with `useMemo`, never stored.
-- **Persistence contract.** Key `pt-planner`, JSON of `AppState` plus `version`. Data with a different version or no persons is discarded and replaced by defaults — there is no migration logic. Bump `STORAGE_VERSION` when changing `AppState` incompatibly.
+- **Persistence contract.** Key `pd-planner`, JSON of `AppState` plus `version`. Data with a different version or no persons is discarded and replaced by defaults — there is no migration logic. Bump `STORAGE_VERSION` when changing `AppState` incompatibly.
 - **Dates.** Dates are local `YYYY-MM-DD` strings built with `toISO()` (`getFullYear/getMonth/getDate`). Never use `toISOString().slice(0, 10)` – it is UTC and causes off-by-one days in UTC+ timezones. Parse with `new Date(iso + 'T00:00:00')`.
 - **Colors.** Realistic/optimistic use the `realistic` / `optimistic` theme tokens (`text-realistic`, `bg-optimistic`, `var(--realistic)` in charts). Persons are colored by id, not index or name, so renames keep their color.
 - **Charts.** Use `@tanstack/charts` with the `/react` adapter (not the `@tanstack/react-charts` compatibility package, not recharts). Build definitions with `defineChart` inside `useMemo`. Avoid D3 dependencies: write small custom `ChartCurve`s instead (see the step curve in `CumulativeLineChart.tsx`). The library's docs ship in `node_modules/@tanstack/charts/llms.txt` – read them before guessing APIs.

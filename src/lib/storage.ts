@@ -10,7 +10,7 @@ export interface AppState {
   persons: Person[]
 }
 
-const KEY = 'pt-planner'
+const KEY = 'pd-planner'
 const STORAGE_VERSION = 1
 
 type StoredState = AppState & { version: number }
